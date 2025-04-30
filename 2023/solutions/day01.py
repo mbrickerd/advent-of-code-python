@@ -1,20 +1,24 @@
+"""Day 1: Trebuchet?!
+
+This module provides the solution for Advent of Code 2023 - Day 1.
+It handles extraction of calibration values from strings containing digits
+and written numbers.
+
+The module contains a Solution class that inherits from SolutionBase and implements
+methods to extract and process calibration values from input strings.
+"""
+
 import re
 
 from aoc.models.base import SolutionBase
 
 
 class Solution(SolutionBase):
-    """Solution for Advent of Code 2023 - Day 1: Trebuchet?!
+    """Extract and process calibration values from strings.
 
-    This class solves a puzzle involving calibration values embedded in strings,
-    where the values need to be extracted by finding the first and last digits
-    in each string. Part 2 extends this to include digits written as words.
-
-    Input format:
-        List of strings where each line contains a mixture of:
-        - Single digits (0-9)
-        - Letters and other characters
-        - Written number words (one, two, three, etc.)
+    This solution handles strings containing calibration values that need to be
+    extracted by finding the first and last digits. Part 1 handles numeric digits
+    only, while Part 2 extends this to include digits written as words.
 
     The solution uses regex pattern matching to find both numeric digits and
     written numbers, converting them to their numerical representations.
@@ -34,60 +38,39 @@ class Solution(SolutionBase):
     pattern = r"(?=(one|two|three|four|five|six|seven|eight|nine|\d))"
 
     def part1(self, data: list[str]) -> int:
-        """Extract and sum calibration values using only numeric digits.
-
-        Processes each line to find the first and last numeric digits,
-        combining them to form a two-digit number. If only one digit
-        is found, it's used as both first and last digit.
+        """Calculate the sum of calibration values using only numeric digits.
 
         Args:
-            data: List of strings containing calibration values
+            data (list[str]): List of strings containing calibration values.
 
         Returns
         -------
-            Sum of all calibration values
+            The sum of all calibration values, where each value is formed by
+            combining the first and last numeric digits in each string.
         """
-        values = []
-        for row in data:
-            digits = [char for char in row if char.isdigit()]
+        total = 0
+        for line in data:
+            digits = [c for c in line if c.isdigit()]
             if digits:
-                digit = int(digits[0] + digits[-1]) if len(digits) > 1 else int(digits[0] * 2)
-                values.append(digit)
-
-        return sum(values)
+                total += int(digits[0] + digits[-1])
+        return total
 
     def part2(self, data: list[str]) -> int:
-        """Extract and sum calibration values using both digits and written numbers.
-
-        Processes each line to find the first and last occurrence of either
-        numeric digits or written number words (e.g., "one", "two", etc.).
-        Written numbers are converted to their digit equivalents before
-        combining them to form a two-digit number.
-
-        Uses positive lookahead regex pattern to handle overlapping matches
-        (e.g., "oneight" contains both "one" and "eight").
+        """Calculate the sum of calibration values including written numbers.
 
         Args:
-            data: List of strings containing calibration values with both
-                  numeric and written numbers
+            data (list[str]): List of strings containing calibration values and written numbers.
 
         Returns
         -------
-            Sum of all calibration values
+            The sum of all calibration values, where each value is formed by
+            combining the first and last digits (numeric or written) in each string.
         """
-        values = []
-        for row in data:
-            digits = []
-            for match in re.finditer(self.pattern, row):
-                # group(1) contains the actual matched digit/word
-                digit = match.group(1)
-
-                # Convert word to digit if it's a word
-                digit = self.number_map.get(digit, digit)
-                digits.append(digit)
-
-            if digits:
-                value = int(digits[0] + digits[-1])
-                values.append(value)
-
-        return sum(values)
+        total = 0
+        for line in data:
+            matches = re.findall(self.pattern, line)
+            if matches:
+                first = self.number_map.get(matches[0], matches[0])
+                last = self.number_map.get(matches[-1], matches[-1])
+                total += int(first + last)
+        return total

@@ -2,10 +2,10 @@
 
 This module provides a command-line interface for running and managing Advent of Code
 solutions. It handles running solutions, creating template files, downloading inputs,
-running tests, benchmarking performance, and submitting answers to adventofcode.com.
+running tests, benchmarking performance, and submitting answers to https://adventofcode.com.
 
-The CLI supports various arguments to control execution. Users can specify which day
-and part to run, customize how inputs are handled, create necessary solution files,
+The CLI supports various arguments to control execution. Users can specify which year, day
+and part to run, customise how inputs are handled, create necessary solution files,
 control test execution and performance benchmarking, and submit answers directly to
 the Advent of Code website.
 """

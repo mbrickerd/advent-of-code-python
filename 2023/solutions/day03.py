@@ -1,3 +1,13 @@
+"""Day 3: Gear Ratios.
+
+This module provides the solution for Advent of Code 2023 - Day 3.
+It handles analysis of engine schematics containing numbers and symbols,
+where valid part numbers are determined by their adjacency to symbols.
+
+The module contains a Solution class that inherits from SolutionBase and implements
+methods to identify valid part numbers and calculate gear ratios.
+"""
+
 import math
 import re
 
@@ -5,18 +15,14 @@ from aoc.models.base import SolutionBase
 
 
 class Solution(SolutionBase):
-    """Solution for Advent of Code 2023 - Day 3: Gear Ratios.
+    """Analyse engine schematics for valid part numbers and gear ratios.
 
-    This class solves a puzzle involving a schematic containing numbers and symbols,
-    where valid part numbers are determined by their adjacency to symbols. In part 2,
-    specific attention is paid to 'gears' which are * symbols adjacent to exactly
-    two numbers.
+    This solution processes engine schematics containing numbers and symbols.
+    Part 1 identifies valid part numbers by checking their adjacency to symbols.
+    Part 2 calculates gear ratios by finding * symbols adjacent to exactly two numbers.
 
-    Input format:
-        List of strings representing an engine schematic where each line contains:
-        - Numbers (part numbers)
-        - Symbols (including *)
-        - Periods (.) representing empty spaces
+    The solution uses regex patterns to identify numbers and symbols, then
+    analyses their positions to determine valid part numbers and gear ratios.
     """
 
     digit_regex = r"\D"
@@ -32,7 +38,7 @@ class Solution(SolutionBase):
         where index uniquely identifies each full number in the schematic.
 
         Args:
-            data: List of strings representing the engine schematic
+            data (list[str]): List of strings representing the engine schematic
 
         Returns
         -------
@@ -65,13 +71,13 @@ class Solution(SolutionBase):
         return nums, symbols
 
     def part1(self, data: list[str]) -> int:
-        """Calculate sum of all valid part numbers.
+        """Calculate the sum of valid part numbers in the schematic.
 
-        A valid part number is any number adjacent (including diagonally)
-        to a symbol. Numbers adjacent to periods (.) are not valid.
+        A part number is valid if it is adjacent to any symbol (including diagonally).
+        The solution parses the schematic and checks each number's adjacency to symbols.
 
         Args:
-            data: List of strings representing the engine schematic
+            data (list[str]): List of strings representing the engine schematic
 
         Returns
         -------
@@ -88,13 +94,13 @@ class Solution(SolutionBase):
         return sum(item[0] for item in set(adjacent_nums))
 
     def part2(self, data: list[str]) -> int:
-        """Calculate sum of gear ratios.
+        """Calculate the sum of gear ratios in the schematic.
 
-        A gear is a * symbol that is adjacent to exactly two numbers.
-        The gear ratio is the product of those two numbers.
+        A gear is a * symbol that is adjacent to exactly two part numbers.
+        The gear ratio is the product of these two numbers.
 
         Args:
-            data: List of strings representing the engine schematic
+            data (list[str]): List of strings representing the engine schematic
 
         Returns
         -------
