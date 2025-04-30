@@ -1,8 +1,6 @@
-name: Python CI
+name: AoC Python CI
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -31,7 +29,7 @@ jobs:
         run: uv run ruff check .
 
       - name: Run type checking
-        run: uv run mypy aoc/ solutions/ templates/ tests/ main.py
+        run: uv run mypy --exclude '(.venv|.pdm-build|__pycache__|.ruff_cache|.mypy_cache|.pytest_cache)' .
 
   test:
     name: Tests
