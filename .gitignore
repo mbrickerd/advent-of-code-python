@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+.cursor
 .pytest_cache
 .pdm-build
 .mypy_cache

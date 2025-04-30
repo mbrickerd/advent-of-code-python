@@ -1,4 +1,4 @@
-# advent-of-code-2024
+# Advent of Code
 
 Advent of Code is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. People use them as interview prep, company training, university coursework, practice problems, a speed contest, or to challenge each other.
 
@@ -7,7 +7,7 @@ Advent of Code is an Advent calendar of small programming puzzles for a variety 
 #### Clone the Repository:
 
 ```bash
-https://github.com/mbrickerd/advent-of-code-2024
+https://github.com/mbrickerd/advent-of-code
 ```
 
 #### Install Dependencies:
@@ -71,25 +71,63 @@ This repository is a modular and efficient framework designed to manage and solv
 │   └── utils
 │       ├── __init__.py
 │       └── initialise.py      # Utilities for initializing daily solution files
-├── solutions
-│   ├── day01.py               # Example solution for Day 1
-│   ├── day02.py               # Example solution for Day 2
-│   └── ...
+├── 2024                       # 2024 Advent of Code solutions
+│   ├── solutions
+│   │   ├── day01.py          # Solution for Day 1, 2024
+│   │   ├── day02.py          # Solution for Day 2, 2024
+│   │   └── ...
+│   ├── data
+│   │   ├── day01
+│   │   │   └── puzzle_input.txt
+│   │   ├── day02
+│   │   │   └── puzzle_input.txt
+│   │   └── ...
+│   └── tests
+│       ├── __init__.py
+│       ├── data
+│       │   ├── day01
+│       │   │   ├── test_01_input.txt
+│       │   │   └── test_02_input.txt
+│       │   ├── day02
+│       │   │   ├── test_01_input.txt
+│       │   │   └── test_02_input.txt
+│       │   └── ...
+│       ├── test_01.py        # Tests for Day 1, 2024
+│       ├── test_02.py        # Tests for Day 2, 2024
+│       └── ...
+├── 2023                       # 2023 Advent of Code solutions
+│   ├── solutions
+│   │   ├── day01.py          # Solution for Day 1, 2023
+│   │   ├── day02.py          # Solution for Day 2, 2023
+│   │   └── ...
+│   ├── data
+│   │   ├── day01
+│   │   │   └── puzzle_input.txt
+│   │   ├── day02
+│   │   │   └── puzzle_input.txt
+│   │   └── ...
+│   └── tests
+│       ├── __init__.py
+│       ├── data
+│       │   ├── day01
+│       │   │   ├── test_01_input.txt
+│       │   │   └── test_02_input.txt
+│       │   ├── day02
+│       │   │   ├── test_01_input.txt
+│       │   │   └── test_02_input.txt
+│       │   └── ...
+│       ├── test_01.py        # Tests for Day 1, 2023
+│       ├── test_02.py        # Tests for Day 2, 2023
+│       └── ...
 ├── templates
 │   ├── solutions
-│   │   └── sample.py          # Template for new daily solution files
+│   │   └── sample.py         # Template for new daily solution files
 │   └── tests
-│       └── sample.txt         # Template for test cases
-├── tests
-│   ├── __init__.py
-│   ├── test_01.py             # Tests for Day 1 solutions
-│   ├── test_02.py             # Tests for Day 2 solutions
-│   └── ...
+│       └── sample.txt        # Template for test cases
 ├── .gitignore
-├── .pre-commit-config.yaml    # Pre-commit hooks configuration
-├── main.py                    # Main script to manage tasks and run solutions
-├── Makefile                   # Development workflow automation
-├── pyproject.toml             # Project dependencies and configuration
+├── .pre-commit-config.yaml   # Pre-commit hooks configuration
+├── main.py                   # Main script to manage tasks and run solutions
+├── pyproject.toml            # Project dependencies and configuration
 └── README.md
 ```
 
@@ -129,7 +167,7 @@ The central script to perform various tasks such as:
 Provides convenient commands for common development tasks:
 - Installing dependencies
 - Setting up pre-commit hooks
-- Running code quality checks (ruff, mypy)
+- Running code quality checks (`ruff`, `mypy`)
 - Executing tests
 - Formatting code
 
@@ -176,10 +214,10 @@ Follow these steps to work on and solve a specific Advent of Code day using this
 
 #### Create a new daily solution file and download puzzle input data
 
-To scaffold a new Solution class for a specific day:
+To scaffold a new `Solution` class for a specific day:
 
 ```bash
-python main.py --day [day_number] --add
+python main.py --year [year_number] --day [day_number] --add
 ```
 
 This will create a new solution file in the `solutions/` directory (e.g., `solutions/dayXX.py`) and download the test input data for the specified day and create the corresponding `test_ZZ_input.txt` file in the `data/dayXX/` directory. Add your logic for `part1` and `part2` methods in the generated solution file.
@@ -193,7 +231,7 @@ To validate a specific part of your solution (e.g., `part1` or `part2`), follow 
 Use the following command to fetch the test input for the desired part:
 
 ```bash
-python main.py --day [day_number] --part [part_number] --add-test-input
+python main.py --year [year_number] --day [day_number] --part [part_number] --add-test-input
 ```
 
 This will create a test input file in the appropriate location (e.g., `data/dayXX/test_ZZ_input.txt`).
@@ -203,7 +241,7 @@ This will create a test input file in the appropriate location (e.g., `data/dayX
 Execute your solution for the specified day and part to verify its correctness:
 
 ```bash
-python main.py --day [day_number] --part [part_number]
+python main.py --year [year_number] --day [day_number] --part [part_number]
 ```
 
 The framework will load the test input file and run the corresponding method from the `Solution` class for that part.
@@ -219,7 +257,7 @@ By ensuring your solution matches the expected output during these tests, you ca
 To run your solution on the full puzzle input after testing:
 
 ```bash
-python main.py --day [day_number] --part [part_number] --skip-test
+python main.py --year [year_number] --day [day_number] --part [part_number] --skip-test
 ```
 
 This bypasses the test phase and directly runs the solution on the full input dataset (`data/dayXX/puzzle_input.txt`).
@@ -229,7 +267,7 @@ This bypasses the test phase and directly runs the solution on the full input da
 If you're confident in your solution and want to submit the result to Advent of Code:
 
 ```bash
-python main.py --day [day_number] --part [part_number] --skip-test --submit
+python main.py --year [year_number] --day [day_number] --part [part_number] --skip-test --submit
 ```
 
 This will submit your answer for the specified day and part directly to Advent of Code.
@@ -244,7 +282,7 @@ Testing your solutions ensures that your logic is accurate and aligns with the p
 When you are ready to add test cases for a specific day, you can generate a test file using the following command:
 
 ```bash
-python main.py --day [day_number] --add-test-file
+python main.py --year [year_number] --day [day_number] --add-test-file
 ```
 
 This command will create a template test file in the `tests/` directory, named `test_<day_number>.py`. The template is pre-configured to match the structure of the Solution class for that day, making it easier to insert test cases.
@@ -271,4 +309,4 @@ This will output detailed results, showing which tests passed, failed, or encoun
 
 ## Acknowledgments
 
-This project structure was inspired by [nitekat1124's Advent of Code 2024 repository](https://github.com/nitekat1124/advent-of-code-2024).
+This project structure was inspired by [nitekat1124's Advent of Code 2023 repository](https://github.com/nitekat1124/advent-of-code-2023).

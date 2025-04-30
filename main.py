@@ -37,9 +37,19 @@ def main() -> None:
         0: Success
         1: Invalid day/part number (implicit through exit())
     """
+    _year = datetime.date.today().year
     _today = datetime.date.today().day
 
     parser = ArgumentParser(description="Advent of Code solution runner")
+    parser.add_argument(
+        "-y",
+        "--year",
+        dest="year",
+        default=_year,
+        metavar="year_number",
+        type=int,
+        help="Required, year of the AoC event.",
+    )
     parser.add_argument(
         "-d",
         "--day",
@@ -93,15 +103,15 @@ def main() -> None:
 
     elif args.add:
         logger.info(f"Adding day {args.day}")
-        File.add_day(args.day)
+        File.add_day(args.year, args.day)
 
     elif args.add_test_input:
         logger.info(f"Adding test input file for day {args.day}")
-        File.add_test_input(args.day, args.part)
+        File.add_test_input(args.year, args.day, args.part)
 
     elif args.add_test_file:
         logger.info(f"Adding test file for day {args.day}")
-        File.add_test_file(args.day)
+        File.add_test_file(args.year, args.day)
 
     elif args.part not in [1, 2]:
         logger.info("Part number must be 1 or 2")
@@ -132,7 +142,7 @@ def main() -> None:
         solution.benchmark(_print=True)
 
         if answer and args.submit is True:
-            Submission.submit(args.day, args.part, answer)
+            Submission.submit(args.year, args.day, args.part, answer)
 
 
 if __name__ == "__main__":
