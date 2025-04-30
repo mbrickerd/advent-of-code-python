@@ -15,6 +15,7 @@ S = TypeVar("S", bound=SolutionBase)
 
 
 def initialise(
+    year: int,
     day: int,
     part: int = 1,
     *,
@@ -26,6 +27,7 @@ def initialise(
     Dynamically load and instantiate the `Solution` class for a specific puzzle day.
 
     Args:
+        year (int): The year of the puzzle to initialize.
         day (int): The day number (1-25) of the puzzle to initialize.
         part (int, optional): Part number (1 or 2) to solve. Defaults to 1.
         raw (bool, optional): Whether to use raw input. Defaults to False.
@@ -49,9 +51,9 @@ def initialise(
     solution_class: type[SolutionBase] = solution_module.Solution
 
     if not issubclass(solution_class, SolutionBase):
-        error_message = f"Solution class for day {day} must inherit from SolutionBase"
-        raise TypeError(error_message)
+        err_msg = f"Solution class for day {day} must inherit from SolutionBase"
+        raise TypeError(err_msg)
 
     return solution_class(
-        day=day, part_num=part, is_raw=raw, skip_test=skip_test, benchmark=benchmark
+        year=year, day=day, part_num=part, is_raw=raw, skip_test=skip_test, benchmark=benchmark
     )

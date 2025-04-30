@@ -6,9 +6,7 @@ for interacting with the Advent of Code platform.
 """
 
 import json
-import os
 from pathlib import Path
-import sys
 
 
 class Authenticator:
@@ -23,8 +21,9 @@ class Authenticator:
         -------
             Path to the directory containing the current script or script's parent.
         """
-        path = os.path.realpath(sys.argv[0])
-        return Path(path).parent if not Path(path).is_dir() else Path(path)
+        current_file = Path(__file__).resolve()
+        aoc_dir = current_file.parent.parent
+        return aoc_dir.parent
 
     @staticmethod
     def get_session() -> str:

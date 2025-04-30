@@ -6,7 +6,6 @@ puzzle solutions to the Advent of Code website, as well as parsing and displayin
 server's response.
 """
 
-from pathlib import Path
 import re
 import urllib.parse
 import urllib.request
@@ -24,13 +23,14 @@ class Submission:
     """
 
     @staticmethod
-    def submit(day: int, level: int, answer: int) -> None:
+    def submit(year: int, day: int, level: int, answer: int) -> None:
         """Submit a puzzle solution to Advent of Code.
 
         Makes a POST request to submit the answer and processes the response,
         displaying formatted feedback about whether the answer was correct.
 
         Args:
+            year: The year of the puzzle (2024, 2025, etc.)
             day: The day number (1-25) of the puzzle.
             level: The part number (1 or 2) of the puzzle.
             answer: The calculated answer to submit.
@@ -42,10 +42,8 @@ class Submission:
             - Preserves important punctuation in separate lines for readability
         """
         session = Authenticator.get_session()
-        path_obj = Path(Authenticator.get_path())
-        year = path_obj.parts[-1].split("-")[-1]
-
         headers = Authenticator.get_headers()
+
         headers["Referer"] = f"https://adventofcode.com/{year}/day/{day}"
         headers["Cookie"] = f"session={session}"
 

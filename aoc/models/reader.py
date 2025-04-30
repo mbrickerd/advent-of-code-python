@@ -21,11 +21,12 @@ class Reader:
     PROJECT_ROOT = _aoc_dir.parent
 
     @classmethod
-    def get_test_input(cls, day: int, part_num: int, *, raw: bool) -> str | list[str]:
+    def get_test_input(cls, year: int, day: int, part_num: int, *, raw: bool) -> str | list[str]:
         """
         Read test input for a specific day and part.
 
         Args:
+            year: The year of the puzzle (2024, 2025, etc.)
             day: The day number (1-25)
             raw: If True, preserves newlines. If False, strips whitespace
             part_num: The puzzle part number (1 or 2)
@@ -35,7 +36,12 @@ class Reader:
             The test input as a string or list of strings
         """
         file_path = (
-            cls.PROJECT_ROOT / "tests" / "data" / f"day{day:02d}" / f"test_{part_num:02d}_input.txt"
+            cls.PROJECT_ROOT
+            / str(year)
+            / "tests"
+            / "data"
+            / f"day{day:02d}"
+            / f"test_{part_num:02d}_input.txt"
         )
 
         with Path.open(file_path) as f:
@@ -48,11 +54,12 @@ class Reader:
         return content.strip().split("\n")
 
     @classmethod
-    def get_puzzle_input(cls, day: int, *, raw: bool = False) -> str | list[str]:
+    def get_puzzle_input(cls, year: int, day: int, *, raw: bool = False) -> str | list[str]:
         """
         Read actual puzzle input for a specific day.
 
         Args:
+            year: The year of the puzzle (2024, 2025, etc.)
             day: The day number (1-25)
             raw: If True, preserves newlines. If False, strips whitespace
 
@@ -60,7 +67,7 @@ class Reader:
         -------
             The puzzle input as a string or list of strings
         """
-        file_path = cls.PROJECT_ROOT / "data" / f"day{day:02d}" / "puzzle_input.txt"
+        file_path = cls.PROJECT_ROOT / str(year) / "data" / f"day{day:02d}" / "puzzle_input.txt"
 
         with Path.open(file_path) as f:
             content = f.read()

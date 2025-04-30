@@ -7,12 +7,12 @@ setting up solution files for each day's challenge.
 """
 
 from datetime import datetime
-from pathlib import Path
 from time import sleep
 
 from bs4 import BeautifulSoup
 from loguru import logger
 import requests
+from requests import Request, Session
 
 from aoc.models.authenticator import Authenticator
 
@@ -26,10 +26,11 @@ class File:
     """
 
     @staticmethod
-    def download_puzzle_input(day: int) -> str:
+    def download_puzzle_input(year: int, day: int) -> str:
         """Download the puzzle input for a specific day from Advent of Code.
 
         Args:
+            year: The year of the puzzle (2024, 2025, etc.)
             day: The day number (1-25) of the puzzle.
 
         Returns
@@ -41,28 +42,32 @@ class File:
             Year is determined from the project directory name.
         """
         session = Authenticator.get_session()
-        path_obj = Path(Authenticator.get_path())
-        year = path_obj.parts[-1].split("-")[-1]
-
         headers = Authenticator.get_headers()
+
         headers["Referer"] = f"https://adventofcode.com/{year}/day/{day}"
         headers["Cookie"] = f"session={session}"
 
         url = f"https://adventofcode.com/{year}/day/{day}/input"
         method = "GET"
-        request = requests.Request(method, url, headers=headers)
+        request = Request(method, url, headers=headers)
         prepped_request = request.prepare()
 
-        with requests.Session() as sess:
+        logger.debug(f"URL: {url}")
+        logger.debug(f"Headers: {headers}")
+        logger.debug(f"Session token length: {len(session)}")
+
+        with Session() as sess:
             response = sess.send(prepped_request)
+            logger.debug(response.status_code)
             response.raise_for_status()
             return response.text
 
     @staticmethod
-    def download_test_input(day: int, part_num: int) -> str | None:
+    def download_test_input(year: int, day: int, part_num: int) -> str | None:
         """Download test input from the puzzle description for a specific day and part.
 
         Args:
+            year: The year of the puzzle (2024, 2025, etc.)
             day: The day number (1-25) of the puzzle.
             part_num: The puzzle part number (1 or 2).
 
@@ -75,10 +80,8 @@ class File:
             Part number determines which code block to use.
         """
         session = Authenticator.get_session()
-        path_obj = Path(Authenticator.get_path())
-        year = path_obj.parts[-1].split("-")[-1]
-
         headers = Authenticator.get_headers()
+
         headers["Referer"] = f"https://adventofcode.com/{year}/day/{day}"
         headers["Cookie"] = f"session={session}"
 
@@ -97,7 +100,7 @@ class File:
         return None
 
     @staticmethod
-    def add_day(day: int) -> None:
+    def add_day(year: int, day: int) -> None:
         """Set up the file structure for a new puzzle day.
 
         Creates solution file from template and downloads puzzle input when available.
@@ -112,7 +115,7 @@ class File:
             - `data/dayXX/puzzle_input.txt`
         """
         path = Authenticator.get_path()
-        solution_path = path / f"solutions/day{day:02}.py"
+        solution_path = path / str(year) / f"solutions/day{day:02}.py"
 
         if not solution_path.exists():
             sample_file = path / "templates/solutions/sample.py"
@@ -121,7 +124,7 @@ class File:
             solution_path.write_text(content)
             logger.info(f"Created file: {solution_path}")
 
-        folder_path = path / f"data/day{day:02}"
+        folder_path = path / str(year) / f"data/day{day:02}"
         folder_path.mkdir(parents=True, exist_ok=True)
 
         file_path = folder_path / "puzzle_input.txt"
@@ -146,17 +149,18 @@ class File:
                 now = datetime.now()
 
             logger.info("Downloading puzzle input...")
-            file_path.write_text(File.download_puzzle_input(day))
+            file_path.write_text(File.download_puzzle_input(year, day))
             logger.info(f"Downloaded puzzle input to: {file_path}")
 
     @staticmethod
-    def add_test_input(day: int, part_num: int) -> None:
+    def add_test_input(year: int, day: int, part_num: int) -> None:
         """Set up and download test input for a specific puzzle part.
 
         Creates test input file and downloads content when available.
         Waits for puzzle unlock time (5:00 UTC) if necessary.
 
         Args:
+            year: The year of the puzzle (2024, 2025, etc.)
             day: The day number (1-25) of the puzzle.
             part_num: The puzzle part number (1 or 2).
 
@@ -164,7 +168,7 @@ class File:
             Creates file at: `tests/data/dayXX/test_XX_input.txt`
         """
         path = Authenticator.get_path()
-        folder_path = path / f"tests/data/day{day:02}"
+        folder_path = path / str(year) / f"tests/data/day{day:02}"
         folder_path.mkdir(parents=True, exist_ok=True)
 
         file_path = folder_path / f"test_{part_num:02d}_input.txt"
@@ -191,7 +195,7 @@ class File:
             logger.info("Downloading test input...")
 
             # Use the method's return value
-            test_input = File.download_test_input(day, part_num)
+            test_input = File.download_test_input(year, day, part_num)
 
             # Only write if test input is not None
             if test_input is not None:
@@ -199,10 +203,11 @@ class File:
                 logger.info(f"Downloaded test input to: {file_path}")
 
     @staticmethod
-    def add_test_file(day: int) -> None:
+    def add_test_file(year: int, day: int) -> None:
         """Create a test file for a specific puzzle day from template.
 
         Args:
+            year: The year of the puzzle (2024, 2025, etc.)
             day: The day number (1-25) to create test file for.
 
         Note:
@@ -215,7 +220,7 @@ class File:
             FileNotFoundError: If the template file is not found.
         """
         path = Authenticator.get_path()
-        test_path = path / f"tests/test_{day:02}.py"
+        test_path = path / str(year) / f"tests/test_{day:02}.py"
 
         logger.info(f"Test file path: {test_path}")
 

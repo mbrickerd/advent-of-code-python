@@ -19,6 +19,7 @@ class TestSolutionUtility:
 
     @staticmethod
     def run_test(
+        year: int,
         day: int,
         part_num: int,
         expected: str | int,
@@ -48,13 +49,13 @@ class TestSolutionUtility:
             - Loads test input from `tests/data/dayXX/test_YY_input.txt`
             - Expects solution classes to have `part1()` and `part2()` methods
         """
-        solution: SolutionBase = initialise(day, skip_test=False)
+        solution: SolutionBase = initialise(year, day, skip_test=False)
         part_method = getattr(solution, f"part{part_num}")
-        test_input = Reader.get_test_input(day, part_num, raw=is_raw)
+        test_input = Reader.get_test_input(year, day, part_num, raw=is_raw)
         result = part_method(data=test_input)
 
         if result != expected:
-            error_message = (
+            err_msg = (
                 f"Test failed for Day {day}, Part {part_num}: Expected {expected}, got {result}."
             )
-            raise ValueError(error_message)
+            raise ValueError(err_msg)

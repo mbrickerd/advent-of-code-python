@@ -34,6 +34,7 @@ class SolutionBase:
 
     def __init__(
         self,
+        year: int,
         day: int = -1,
         part_num: int = 1,
         *,
@@ -52,6 +53,7 @@ class SolutionBase:
             benchmark: Whether to measure solution execution time.
                 Defaults to `False`.
         """
+        self.year = year
         self.day = day
         self.part_num = part_num
         self.is_raw = is_raw
@@ -59,9 +61,9 @@ class SolutionBase:
         self._benchmark = benchmark
         self.benchmark_times: list[float] = []
         self.data = (
-            Reader.get_puzzle_input(self.day, raw=self.is_raw)
+            Reader.get_puzzle_input(self.year, self.day, raw=self.is_raw)
             if self.skip_test
-            else Reader.get_test_input(self.day, self.part_num, raw=self.is_raw)
+            else Reader.get_test_input(self.year, self.day, self.part_num, raw=self.is_raw)
         )
 
     def check_is_raw(self) -> None:
