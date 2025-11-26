@@ -1,5 +1,5 @@
 [project]
-name = "aoc2024"
+name = "aoc"
 version = "0.1.0"
 description = "Advent of Code is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. People use them as interview prep, company training, university coursework, practice problems, a speed contest, or to challenge each other."
 authors = [{ name = "mallory.brickerd", email = "mallorybrickerd@gmail.com" }]
@@ -10,7 +10,6 @@ dependencies = [
     "requests<3.0.0,>=2.32.3",
     "bs4<1.0.0,>=0.0.2",
     "networkx<4.0.0,>=3.4.2",
-    "pre-commit>=4.1.0",
 ]
 
 [dependency-groups]
@@ -21,6 +20,7 @@ dev = [
     "types-beautifulsoup4>=4.12.0,<5.0.0",
     "types-networkx>=3.4.2",
     "pytest>=8.3.4,<9",
+    "pre-commit>=4.5.0",
 ]
 
 [tool.hatch.build.targets.sdist]

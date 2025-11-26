@@ -42,13 +42,13 @@ def initialise(
     Note:
         - Expects solution modules to be named `dayXX.py` where `XX` is zero-padded day number
         - Expects each solution module to have a `Solution` class
-        - Solution modules should be in the `solutions` package
+        - Solution modules should be in the `{year}.solutions` package
         - Parameters match those expected by SolutionBase.__init__
     """
-    module_name = f"solutions.day{day:02d}"
+    module_name = f"{year}.solutions.day{day:02d}"
     solution_module = import_module(module_name)
 
-    solution_class: type[SolutionBase] = solution_module.Solution
+    solution_class = solution_module.Solution
 
     if not issubclass(solution_class, SolutionBase):
         err_msg = f"Solution class for day {day} must inherit from SolutionBase"
