@@ -6,7 +6,7 @@ classes for Advent of Code puzzles based on the day number.
 """
 
 from importlib import import_module
-from typing import TypeVar
+from typing import TypeVar, cast
 
 from aoc.models.base import SolutionBase
 
@@ -54,6 +54,7 @@ def initialise(
         err_msg = f"Solution class for day {day} must inherit from SolutionBase"
         raise TypeError(err_msg)
 
-    return solution_class(
+    solution_class_typed: type[SolutionBase] = cast(type[SolutionBase], solution_class)
+    return solution_class_typed(
         year=year, day=day, part_num=part, is_raw=raw, skip_test=skip_test, benchmark=benchmark
     )

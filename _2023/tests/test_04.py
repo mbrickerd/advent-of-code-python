@@ -1,4 +1,4 @@
-"""Test suite for Day 4: Scratchcards.
+"""Test suite for Day 4: Scratchcards
 
 This module contains tests for the Day 4 solution, which processes scratchcards by matching
 winning and owned numbers to score points and track card copies. The tests verify:
@@ -23,6 +23,7 @@ def test_day04_part1() -> None:
         part_num=1,
         expected=13,
     )
+
 
 def test_day04_part2() -> None:
     """Test calculating total scratchcards won through copying.

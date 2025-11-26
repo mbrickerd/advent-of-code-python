@@ -1,4 +1,4 @@
-"""Test suite for Day 2: Cube Conundrum.
+"""Test suite for Day 2: Cube Conundrum
 
 This module contains tests for the Day 2 solution, which handles analysis of
 cube games where colored cubes are drawn from a bag. The tests verify:
