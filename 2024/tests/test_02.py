@@ -18,6 +18,7 @@ def test_day02_part1() -> None:
     are between 1 and 3 inclusive.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=2,
         is_raw=False,
         part_num=1,
@@ -33,6 +34,7 @@ def test_day02_part2() -> None:
     removed from the sequence.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=2,
         is_raw=False,
         part_num=2,

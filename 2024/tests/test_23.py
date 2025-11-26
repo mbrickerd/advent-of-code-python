@@ -19,6 +19,7 @@ def test_day23_part1() -> None:
     3. Can play together based on direct connections
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=23,
         is_raw=False,
         part_num=1,
@@ -35,6 +36,7 @@ def test_day23_part2() -> None:
     order as a comma-separated string.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=23,
         is_raw=False,
         part_num=2,

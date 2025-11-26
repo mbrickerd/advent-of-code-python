@@ -18,6 +18,7 @@ def test_day20_part1() -> None:
     the required number of steps compared to the normal path.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=20,
         is_raw=False,
         part_num=1,
@@ -35,6 +36,7 @@ def test_day20_part2() -> None:
     minimum required steps.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=20,
         is_raw=False,
         part_num=2,

@@ -16,6 +16,7 @@ def test_day01_part1() -> None:
     differences between corresponding elements in sorted lists.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=1,
         is_raw=False,
         part_num=1,
@@ -30,6 +31,7 @@ def test_day01_part2() -> None:
     between matching elements weighted by their frequency.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=1,
         is_raw=False,
         part_num=2,

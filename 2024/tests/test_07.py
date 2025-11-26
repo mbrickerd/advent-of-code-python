@@ -17,6 +17,7 @@ def test_day07_part1() -> None:
     numbers reaches the target total.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=7,
         is_raw=False,
         part_num=1,
@@ -32,6 +33,7 @@ def test_day07_part2() -> None:
     numbers reaches the target total without exceeding it.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=7,
         is_raw=False,
         part_num=2,

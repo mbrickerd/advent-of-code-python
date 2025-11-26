@@ -18,6 +18,7 @@ def test_day13_part1() -> None:
     - Each button moves the claw by specific X and Y coordinates
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=13,
         is_raw=False,
         part_num=1,

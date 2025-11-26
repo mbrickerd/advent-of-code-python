@@ -20,6 +20,7 @@ def test_day22_part1() -> None:
     3. Multiply by 2048 and XOR with result
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=22,
         is_raw=False,
         part_num=1,
@@ -36,6 +37,7 @@ def test_day22_part2() -> None:
     subsequent price.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=22,
         is_raw=False,
         part_num=2,

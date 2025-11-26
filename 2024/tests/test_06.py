@@ -17,6 +17,7 @@ def test_day06_part1() -> None:
     or creating a loop.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=6,
         is_raw=False,
         part_num=1,
@@ -31,6 +32,7 @@ def test_day06_part2() -> None:
     position and counts how many modifications cause the guard's path to loop.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=6,
         is_raw=False,
         part_num=2,

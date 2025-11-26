@@ -16,6 +16,7 @@ def test_day05_part1() -> None:
     all sequencing rules and calculates the sum of their middle page numbers.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=5,
         is_raw=False,
         part_num=1,
@@ -31,6 +32,7 @@ def test_day05_part2() -> None:
     the sum of middle page numbers from these fixed orders.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=5,
         is_raw=False,
         part_num=2,

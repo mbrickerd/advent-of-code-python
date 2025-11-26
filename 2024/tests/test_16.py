@@ -17,6 +17,7 @@ def test_day16_part1() -> None:
     (cost 1) or rotate 90 degrees (cost 1000).
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=16,
         is_raw=False,
         part_num=1,
@@ -32,6 +33,7 @@ def test_day16_part2() -> None:
     these optimal paths.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=16,
         is_raw=False,
         part_num=2,

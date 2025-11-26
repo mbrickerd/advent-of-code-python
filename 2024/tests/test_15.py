@@ -17,6 +17,7 @@ def test_day15_part1() -> None:
     a box that can be pushed. The score is calculated based on final box positions.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=15,
         is_raw=False,
         part_num=1,
@@ -33,6 +34,7 @@ def test_day15_part2() -> None:
     final box positions.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=15,
         is_raw=False,
         part_num=2,

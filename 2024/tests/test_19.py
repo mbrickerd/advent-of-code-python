@@ -18,6 +18,7 @@ def test_day19_part1() -> None:
     towel patterns in any order.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=19,
         is_raw=False,
         part_num=1,
@@ -34,6 +35,7 @@ def test_day19_part2() -> None:
     sequence, then sums these counts across all sequences.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=19,
         is_raw=False,
         part_num=2,

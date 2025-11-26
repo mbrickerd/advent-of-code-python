@@ -18,6 +18,7 @@ def test_day21_part1() -> None:
     the numeric part of each code.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=21,
         is_raw=False,
         part_num=1,
@@ -34,6 +35,7 @@ def test_day21_part2() -> None:
     and the numeric part of each code.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=21,
         is_raw=False,
         part_num=2,

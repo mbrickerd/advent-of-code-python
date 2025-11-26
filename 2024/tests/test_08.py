@@ -17,6 +17,7 @@ def test_day08_part1() -> None:
     one antenna is exactly twice the distance to the other.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=8,
         is_raw=False,
         part_num=1,
@@ -32,6 +33,7 @@ def test_day08_part2() -> None:
     as antinodes under the relaxed rules.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=8,
         is_raw=False,
         part_num=2,

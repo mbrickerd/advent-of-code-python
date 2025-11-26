@@ -18,6 +18,7 @@ def test_day10_part1() -> None:
     of scores across all trailheads.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=10,
         is_raw=False,
         part_num=1,
@@ -33,6 +34,7 @@ def test_day10_part2() -> None:
     of these counts across all trailheads.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=10,
         is_raw=False,
         part_num=2,

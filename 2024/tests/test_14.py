@@ -17,6 +17,7 @@ def test_day14_part1() -> None:
     calculates the product of these counts.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=14,
         is_raw=False,
         part_num=1,

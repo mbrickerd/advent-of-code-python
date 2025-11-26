@@ -17,6 +17,7 @@ def test_day17_part1() -> None:
     the program's output as a comma-separated string.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=17,
         is_raw=False,
         part_num=1,
@@ -31,6 +32,7 @@ def test_day17_part2() -> None:
     for register A that causes the program to output a copy of its own instructions.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=17,
         is_raw=False,
         part_num=2,

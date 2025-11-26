@@ -19,6 +19,7 @@ def test_day11_part1() -> None:
     3. If stone length is odd, multiply by 2024
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=11,
         is_raw=False,
         part_num=1,

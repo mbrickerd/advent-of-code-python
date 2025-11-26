@@ -17,6 +17,7 @@ def test_day12_part1() -> None:
     as the sum of area x perimeter for each region.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=12,
         is_raw=False,
         part_num=1,
@@ -32,6 +33,7 @@ def test_day12_part2() -> None:
     then determines the total fencing cost as the sum of area x number_of_sides for each region.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=12,
         is_raw=False,
         part_num=2,

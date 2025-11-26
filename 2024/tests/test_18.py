@@ -17,6 +17,7 @@ def test_day18_part1() -> None:
     using breadth-first search to find the minimum distance.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=18,
         is_raw=False,
         part_num=1,
@@ -32,6 +33,7 @@ def test_day18_part2() -> None:
     the critical corruption point.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=18,
         is_raw=False,
         part_num=2,

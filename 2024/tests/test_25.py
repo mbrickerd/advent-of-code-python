@@ -22,6 +22,7 @@ def test_day25_part1() -> None:
     3. Tests each lock-key combination against the criteria
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=25,
         is_raw=False,
         part_num=1,

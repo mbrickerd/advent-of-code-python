@@ -17,6 +17,7 @@ def test_day03_part1() -> None:
     in the format `mul(x,y)` and calculates the sum of all these multiplications.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=3,
         is_raw=False,
         part_num=1,
@@ -32,6 +33,7 @@ def test_day03_part2() -> None:
     while enabled (between `do()` and `don't()`).
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=3,
         is_raw=False,
         part_num=2,

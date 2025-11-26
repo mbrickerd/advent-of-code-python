@@ -17,6 +17,7 @@ def test_day24_part1() -> None:
     the binary value represented by the z-wires.
     """
     TestSolutionUtility.run_test(
+        year=2024,
         day=24,
         is_raw=False,
         part_num=1,
