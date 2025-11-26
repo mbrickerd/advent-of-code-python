@@ -1,9 +1,18 @@
 """Day 23: LAN Party
 
-Analyze player connections and find gaming groups in a network.
+This module provides the solution for Advent of Code 2024 - Day 23.
 
-This module solves a puzzle about identifying gaming configurations
-based on network connections and group composition rules.
+It solves a puzzle about identifying groups of interconnected computers at a
+LAN party. The puzzle involves finding sets of computers that are all directly
+connected to each other (cliques) and locating the Chief Historian based on
+computer naming patterns.
+
+The solution uses graph theory to analyze network connections, finding both
+small gaming groups (trios) that include specific computers and the largest
+possible fully-connected group representing the actual LAN party location.
+
+The module contains a Solution class that inherits from SolutionBase and
+implements methods using NetworkX to find cliques in the connection graph.
 """
 
 from itertools import combinations
@@ -14,32 +23,30 @@ from aoc.models.base import SolutionBase
 
 
 class Solution(SolutionBase):
-    """Solution for Advent of Code 2024 - Day 23: LAN Party.
+    """Analyze computer networks and find LAN party groups using graph theory.
 
-    This class solves a puzzle about analyzing LAN party connections and finding
-    gaming groups. Part 1 identifies valid gaming trios including teachers, while
-    Part 2 finds the largest possible gaming group.
+    This solution implements clique detection algorithms:
+    - Part 1: Count trios of interconnected computers with Chief Historian hint
+    - Part 2: Find the largest fully-connected group (maximum clique)
 
-    Input format:
-        - List of connections, one per line
-        - Each line contains two node IDs separated by a hyphen
-        - Node IDs starting with 't' represent teachers
-        - All other nodes represent students
-        - Connections indicate which players can directly play together
+    The solution uses NetworkX graph library to model the network and efficiently
+    find all cliques, which represent groups of computers that can all directly
+    communicate with each other.
     """
 
     def construct_graph(self, data: list[str]) -> nx.Graph:
-        """Construct a NetworkX graph from the input connection data.
+        """Construct an undirected graph from connection data.
 
-        Creates an undirected graph where nodes represent players and edges
-        represent possible direct connections for gaming.
+        Creates a NetworkX graph where nodes represent computers and edges
+        represent direct network connections between them. Each connection
+        is bidirectional.
 
         Args:
-            data: List of strings, each containing two node IDs separated by a hyphen
+            data (list[str]): List of connection strings in format "id1-id2"
 
         Returns
         -------
-            NetworkX Graph object representing the connection network
+            NetworkX Graph object representing the computer network
         """
         graph: nx.Graph = nx.Graph()
         edges = []
@@ -50,20 +57,18 @@ class Solution(SolutionBase):
         return graph
 
     def part1(self, data: list[str]) -> int:
-        """Count valid gaming trios that include at least one teacher.
+        """Count sets of three interconnected computers including the Chief Historian.
 
-        Analyzes the connection graph to find all possible groups of three
-        players that:
-        1. Are fully connected (form a clique)
-        2. Include at least one teacher (node starting with 't')
-        3. Can play together based on direct connections
+        Finds all groups of three computers that are fully connected (each computer
+        connected to the other two) and include at least one computer whose name
+        starts with 't' (indicating the Chief Historian's potential location).
 
         Args:
-            data: List of strings representing player connections
+            data (list[str]): List of connection strings representing the network
 
         Returns
         -------
-            Number of unique valid gaming trios
+            Number of unique trios containing at least one computer starting with 't'
         """
         graph = self.construct_graph(data)
         teacher_cliques = [
@@ -82,19 +87,18 @@ class Solution(SolutionBase):
         )
 
     def part2(self, data: list[str]) -> str:
-        """Find the largest possible gaming group.
+        """Find the password by identifying the largest LAN party group.
 
-        Identifies the maximum clique in the connection graph, representing
-        the largest group of players that can all play together directly.
-        Returns the players in alphabetical order as a comma-separated string.
+        Locates the maximum clique in the network graph, representing the largest
+        set of computers where every computer is directly connected to every other
+        computer. Returns the sorted computer names as a comma-separated password.
 
         Args:
-            data: List of strings representing player connections
+            data (list[str]): List of connection strings representing the network
 
         Returns
         -------
-            Comma-separated string of player IDs in the largest gaming group,
-            sorted alphabetically
+            Password string of alphabetically sorted computer IDs joined by commas
         """
         graph = self.construct_graph(data)
         largest_clique = max(nx.find_cliques(graph), key=len)

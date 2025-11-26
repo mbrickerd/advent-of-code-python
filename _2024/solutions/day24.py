@@ -1,9 +1,18 @@
 """Day 24: Crossed Wires
 
-Analyze digital circuits and identify wire connections.
+This module provides the solution for Advent of Code 2024 - Day 24.
 
-This module solves a puzzle about examining circuit structures and connections,
-finding the output of wires, and identifying which wires need to be swapped.
+It solves a puzzle about analyzing and debugging a digital circuit composed of
+boolean logic gates (AND, OR, XOR). The circuit is supposed to implement a binary
+adder, but some output wires have been swapped, causing incorrect results.
+
+The solution involves simulating the circuit to determine output values and
+analyzing the circuit structure to identify misconnected wires that need to be
+swapped to fix the adder implementation.
+
+The module contains Connection and Circuit dataclasses for representing the
+circuit structure, a CircuitValidator for verifying correct adder wiring, and
+a Solution class that inherits from SolutionBase.
 """
 
 from collections.abc import Callable
@@ -17,15 +26,12 @@ from aoc.models.base import SolutionBase
 class Connection:
     """Represents a logic gate connection in the circuit.
 
-    Args:
-        input1: First input wire identifier
-        gate: Gate operation type (AND, OR, XOR)
-        input2: Second input wire identifier
-        output: Output wire identifier
-
-    Returns
-    -------
-        Connection instance representing a single logic gate connection
+    Attributes
+    ----------
+        input1 (str): First input wire identifier
+        gate (str): Gate operation type (AND, OR, XOR)
+        input2 (str): Second input wire identifier
+        output (str): Output wire identifier
     """
 
     input1: str
@@ -47,14 +53,11 @@ class Connection:
 class Circuit:
     """Represents a digital circuit with wires and logic gate connections.
 
-    Args:
-        wires: Dictionary mapping wire identifiers to their values
-        connections: List of Connection objects representing logic gates
-        operators: Dictionary mapping gate types to their logic functions
-
-    Returns
-    -------
-        Circuit instance representing the complete digital circuit
+    Attributes
+    ----------
+        wires (dict[str, int]): Maps wire identifiers to their values (-1 for unknown)
+        connections (list[Connection]): Logic gate connections in the circuit
+        operators (dict[str, Callable]): Maps gate types to their logic functions
     """
 
     wires: dict[str, int]
@@ -68,14 +71,17 @@ class Circuit:
     )
 
     def calc(self, wire: str) -> int:
-        """Calculate the value of a wire based on its inputs and gate operation.
+        """Calculate the value of a wire recursively based on its inputs.
+
+        Recursively evaluates the circuit by finding the gate that outputs to
+        this wire and computing its inputs first.
 
         Args:
-            wire: Identifier of the wire to calculate
+            wire (str): Identifier of the wire to calculate
 
         Returns
         -------
-            Computed value for the wire
+            Computed value for the wire (0 or 1)
 
         Raises
         ------
@@ -97,9 +103,12 @@ class Circuit:
     def execute(self) -> list[int]:
         """Execute the circuit and return the z-wire values.
 
+        Computes all output wires (those starting with 'z') and returns their
+        values in order from most significant to least significant bit.
+
         Returns
         -------
-            List of z-wire values in reverse order
+            List of z-wire values in reverse order (MSB first)
         """
         z_values = []
         i = 0
@@ -112,21 +121,31 @@ class Circuit:
             z_values.append(self.calc(key))
             i += 1
 
-        return z_values[::-1]  # Reverse for correct order
+        return z_values[::-1]  # Reverse for correct order (MSB first)
 
 
 class CircuitValidator:
-    """Helper class for verifying circuit connections in part 2."""
+    """Validates circuit structure for correct binary adder implementation.
+
+    This helper class checks that the circuit correctly implements a ripple-carry
+    adder by validating that each bit position follows the expected pattern of
+    XOR, AND, and OR gates.
+    """
 
     def __init__(self, formulas: dict[str, tuple[str, str, str]]):
+        """Initialize the validator with circuit formulas.
+
+        Args:
+            formulas (dict): Maps output wires to (operation, input1, input2) tuples
+        """
         self.formulas = formulas
 
     def make_wire(self, char: str, num: int) -> str:
-        """Create a wire ID with the given character and number.
+        """Create a wire identifier with the given character and number.
 
         Args:
-            char: Character prefix for the wire ('x', 'y', or 'z')
-            num: Wire number to append
+            char (str): Character prefix for the wire ('x', 'y', or 'z')
+            num (int): Wire number to append
 
         Returns
         -------
@@ -135,15 +154,15 @@ class CircuitValidator:
         return f"{char}{num:02}"
 
     def validate_z(self, wire: str, num: int) -> bool:
-        """Validate a z-wire in the circuit.
+        """Validate that a z-wire correctly implements the sum bit.
 
         Args:
-            wire: Wire identifier to validate
-            num: Expected bit position for the wire
+            wire (str): Wire identifier to validate
+            num (int): Expected bit position for the wire
 
         Returns
         -------
-            True if wire is correctly connected, False otherwise
+            True if wire is correctly connected as an adder output
         """
         if wire not in self.formulas:
             return False
@@ -163,15 +182,15 @@ class CircuitValidator:
         )
 
     def validate_intermediate_xor(self, wire: str, num: int) -> bool:
-        """Validate an intermediate XOR gate in the circuit.
+        """Validate an intermediate XOR gate that combines input bits.
 
         Args:
-            wire: Wire identifier to validate
-            num: Expected bit position for the wire
+            wire (str): Wire identifier to validate
+            num (int): Expected bit position for the wire
 
         Returns
         -------
-            True if gate is correctly configured, False otherwise
+            True if gate correctly XORs corresponding x and y inputs
         """
         if wire not in self.formulas:
             return False
@@ -183,15 +202,15 @@ class CircuitValidator:
         return sorted([x, y]) == [self.make_wire("x", num), self.make_wire("y", num)]
 
     def validate_carry_bit(self, wire: str, num: int) -> bool:
-        """Validate a carry bit in the circuit.
+        """Validate that a wire correctly implements the carry bit logic.
 
         Args:
-            wire: Wire identifier to validate
-            num: Expected bit position for the wire
+            wire (str): Wire identifier to validate
+            num (int): Expected bit position for the wire
 
         Returns
         -------
-            True if carry bit is correctly configured, False otherwise
+            True if carry bit logic is correctly configured
         """
         if wire not in self.formulas:
             return False
@@ -214,15 +233,15 @@ class CircuitValidator:
         )
 
     def validate_direct_carry(self, wire: str, num: int) -> bool:
-        """Validate a direct carry gate in the circuit.
+        """Validate a direct carry gate (AND of input bits).
 
         Args:
-            wire: Wire identifier to validate
-            num: Expected bit position for the wire
+            wire (str): Wire identifier to validate
+            num (int): Expected bit position for the wire
 
         Returns
         -------
-            True if direct carry is correctly configured, False otherwise
+            True if direct carry AND gate is correctly configured
         """
         if wire not in self.formulas:
             return False
@@ -234,15 +253,15 @@ class CircuitValidator:
         return sorted([x, y]) == [self.make_wire("x", num), self.make_wire("y", num)]
 
     def validate_recarry(self, wire: str, num: int) -> bool:
-        """Validate a recarry gate in the circuit.
+        """Validate a recarry gate (propagated carry from previous bit).
 
         Args:
-            wire: Wire identifier to validate
-            num: Expected bit position for the wire
+            wire (str): Wire identifier to validate
+            num (int): Expected bit position for the wire
 
         Returns
         -------
-            True if recarry is correctly configured, False otherwise
+            True if recarry AND gate is correctly configured
         """
         if wire not in self.formulas:
             return False
@@ -262,20 +281,20 @@ class CircuitValidator:
         """Validate the circuit at a specific bit position.
 
         Args:
-            num: Bit position to validate
+            num (int): Bit position to validate
 
         Returns
         -------
-            True if bit position is correctly configured, False otherwise
+            True if bit position is correctly configured
         """
         return self.validate_z(self.make_wire("z", num), num)
 
     def progress(self) -> int:
-        """Determine how many bits are correctly validated in sequence.
+        """Determine how many consecutive bits are correctly validated.
 
         Returns
         -------
-            Number of consecutive valid bit positions from zero
+            Number of consecutive valid bit positions starting from zero
         """
         i = 0
         while self.validate(i):
@@ -285,25 +304,24 @@ class CircuitValidator:
 
 
 class Solution(SolutionBase):
-    """Solution for Advent of Code 2024 - Day 24: Crossed Wires.
+    """Simulate and debug digital circuits implementing binary addition.
 
-    This class solves a puzzle about analyzing digital circuits and identifying wire connections.
-    Part 1 executes a digital circuit to determine the output value, while Part 2 analyzes the
-    circuit structure to identify wires that need to be swapped to fix an incorrectly wired adder.
+    This solution implements circuit analysis algorithms:
+    - Part 1: Simulate the circuit to compute the decimal output value
+    - Part 2: Identify swapped wires by validating adder structure
 
-    Input format:
-        - Initial wire values section: lines with format "wireId: value" (0 or 1)
-        - Blank line separator
-        - Gate connections section: lines with format "input1 OPERATION input2 -> output"
-        - Operations include AND, OR, and XOR
-        - Wire IDs starting with 'x' and 'y' are inputs, those starting with 'z' are outputs
+    The solution parses circuit definitions, simulates gate execution, and
+    validates that the circuit correctly implements a ripple-carry adder.
     """
 
     def parse_data(self, data: list[str]) -> Circuit:
         """Parse input data into a Circuit object.
 
+        Extracts initial wire values and gate connections from the input format,
+        creating a complete circuit representation.
+
         Args:
-            data: List of strings containing initial wire values and gate connections
+            data (list[str]): Input lines with wire values and gate definitions
 
         Returns
         -------
@@ -331,37 +349,35 @@ class Solution(SolutionBase):
         return Circuit(wires, connections)
 
     def part1(self, data: list[str]) -> int:
-        """Simulate the digital circuit to calculate the final output value.
+        """Simulate the circuit and compute the decimal output value.
 
-        Parses the input to extract initial wire values and gate connections,
-        then simulates the execution of the circuit by processing gates in order
-        until all wire values are computed. Returns the binary value represented
-        by the z-wires.
+        Executes all gates in the circuit to determine the final values of all
+        z-wires, then converts the binary representation to decimal.
 
         Args:
-            data: List of strings containing initial wire values and gate connections
+            data (list[str]): Input lines with wire values and gate definitions
 
         Returns
         -------
-            Integer value represented by the binary output of z-wires
+            Decimal value represented by the binary output on z-wires
         """
         circuit = self.parse_data(data)
         z_values = circuit.execute()
         return int("".join(map(str, z_values)), 2)
 
     def part2(self, data: list[str]) -> str:
-        """Identify misconnected wires in the full adder circuit.
+        """Identify swapped output wires by validating adder structure.
 
-        Analyzes the circuit structure to find z-wires that need to be swapped
-        to correctly implement a full adder.
+        Analyzes the circuit to find pairs of gates with swapped outputs that
+        prevent the circuit from correctly implementing a binary adder. Uses
+        iterative validation and swapping to identify all four pairs.
 
         Args:
-            data: List of strings containing gate connections
+            data (list[str]): Input lines with gate definitions
 
         Returns
         -------
-            Comma-separated string of z-wire IDs that need to be swapped,
-            sorted alphabetically
+            Comma-separated string of sorted wire identifiers that are swapped
         """
         formulas = {}
         separator_idx = data.index("")

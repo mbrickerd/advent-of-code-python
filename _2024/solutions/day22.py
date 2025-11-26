@@ -1,9 +1,17 @@
 """Day 22: Monkey Market
 
-This module provides the solution for Day 22 of Advent of Code 2024.
+This module provides the solution for Advent of Code 2024 - Day 22.
 
-It solves a puzzle about analyzing secret codes and price patterns
-in a monkey marketplace.
+It solves a puzzle about analyzing pseudorandom secret number sequences and
+price patterns in a monkey marketplace. Buyers use secret numbers to generate
+prices, and finding optimal price change sequences maximizes banana earnings.
+
+The solution involves simulating pseudorandom number generation through bitwise
+operations (XOR and modulo), tracking price changes across multiple buyers, and
+identifying the most profitable sequence of four consecutive price changes.
+
+The module contains a Solution class that inherits from SolutionBase and
+implements methods to transform secret numbers and analyze price patterns.
 """
 
 from collections import defaultdict
@@ -13,49 +21,50 @@ from aoc.models.base import SolutionBase
 
 
 class Solution(SolutionBase):
-    """Solution for the Monkey Market puzzle.
+    """Analyze secret numbers and price patterns in the monkey marketplace.
 
-    Methods
-    -------
-        part1: Calculate the sum of transformed secret codes.
-        part2: Find the highest value pattern in price sequences.
+    This solution implements pseudorandom number analysis:
+    - Part 1: Calculate sum of secret numbers after 2000 transformations
+    - Part 2: Find optimal price change sequence across all buyers
+
+    The solution uses bitwise operations (XOR) and modulo arithmetic to generate
+    pseudorandom sequences, then analyzes price patterns to maximize profits.
     """
 
     rounds: int = 2000
 
     def transform_secret(self, secret: int) -> int:
-        """Transform a secret code through a series of bitwise operations.
+        """Transform a secret number through bitwise operations.
 
-        The transformation consists of three steps:
-        1. Multiply the secret by 64, XOR with the original secret, and take modulo 16777216.
-        2. Integer divide the result by 32, XOR with the previous result, and take modulo 16777216.
-        3. Multiply the result by 2048, XOR with the previous result, and take modulo 16777216.
-
-        The modulo operation ensures that the secret code remains within the range [0, 16777215].
+        Applies three sequential transformations using multiplication, division,
+        XOR (mix), and modulo (prune) operations. Each step mixes a calculated
+        value into the secret using XOR, then prunes the result using modulo
+        16777216 to keep values in range.
 
         Args:
-            secret: The secret code to be transformed.
+            secret (int): The secret number to transform
 
         Returns
         -------
-            The transformed secret code.
+            Transformed secret number after applying all three steps
         """
         secret = ((secret * 64) ^ secret) % 16777216
         secret = ((secret // 32) ^ secret) % 16777216
         return ((secret * 2048) ^ secret) % 16777216
 
     def part1(self, data: list[str]) -> int:
-        """Calculate the sum of transformed secret codes.
+        """Calculate sum of secret numbers after 2000 transformations.
 
-        Processes each input value through the specified number of rounds using the
-        `transform_secret` method.
+        Processes each initial secret number through 2000 rounds of transformation,
+        then sums all final secret values. This simulates the pseudorandom number
+        generation for each buyer over a full day.
 
         Args:
-            data: List of strings containing initial secret codes.
+            data (list[str]): List of strings containing initial secret numbers
 
         Returns
         -------
-            Sum of all transformed secret values.
+            Sum of all secret numbers after 2000 transformation rounds
         """
         secrets = []
         for secret in map(int, data):
@@ -67,20 +76,19 @@ class Solution(SolutionBase):
         return sum(secrets)
 
     def part2(self, data: list[str]) -> int:
-        """Find the highest value pattern in price sequences.
+        """Find the price change sequence that maximizes total bananas.
 
-        Generates price sequences by applying the `transform_secret` method to each input value
-        and taking the modulo 10 of the result to get price digits.
-
-        Analyzes sequences of 4 consecutive price changes and finds the pattern that leads to
-        the highest subsequent price.
+        Generates price sequences for each buyer by taking the ones digit of
+        transformed secret numbers. Analyzes all possible sequences of four
+        consecutive price changes and identifies which sequence yields the
+        highest total price across all buyers when they first encounter it.
 
         Args:
-            data: List of strings containing initial secret codes.
+            data (list[str]): List of strings containing initial secret numbers
 
         Returns
         -------
-            Maximum price value associated with any 4-change pattern.
+            Maximum total bananas obtainable from any four-change sequence
         """
         prices = []
         for secret in map(int, data):
