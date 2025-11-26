@@ -1,6 +1,7 @@
 """Day 1: Trebuchet?!
 
 This module provides the solution for Advent of Code 2023 - Day 1.
+
 It handles extraction of calibration values from strings containing digits
 and written numbers.
 

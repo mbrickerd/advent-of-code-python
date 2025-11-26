@@ -1,6 +1,7 @@
-"""Day 3: Gear Ratios.
+"""Day 3: Gear Ratios
 
 This module provides the solution for Advent of Code 2023 - Day 3.
+
 It handles analysis of engine schematics containing numbers and symbols,
 where valid part numbers are determined by their adjacency to symbols.
 

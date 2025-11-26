@@ -1,6 +1,7 @@
-"""Day 2: Cube Conundrum.
+"""Day 2: Cube Conundrum
 
 This module provides the solution for Advent of Code 2023 - Day 2.
+
 It handles analysis of cube games where colored cubes are drawn from a bag
 in multiple sets, with each game having several draws of red, green, and blue cubes.
 
@@ -59,7 +60,10 @@ class Solution(SolutionBase):
         """
         total = 0
         for game in data:
-            game_id = int(re.search(self.id_regex, game).group(1))
+            match = re.search(self.id_regex, game)
+            if match is None:
+                continue
+            game_id = int(match.group(1))
             sets = game.split(":")[1].split(";")
             if all(self.is_possible(s) for s in sets):
                 total += game_id
