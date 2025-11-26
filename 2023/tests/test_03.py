@@ -3,6 +3,7 @@ from aoc.models.tester import TestSolutionUtility
 
 def test_day03_part1():
     TestSolutionUtility.run_test(
+        year=2023,
         day=3,
         is_raw=False,
         part_num=1,
@@ -11,7 +12,8 @@ def test_day03_part1():
 
 
 def test_day03_part2():
-    TestSolutionUtility.run_test(
+    TestSolutionUtility.run_test(   
+        year=2023,
         day=3,
         is_raw=False,
         part_num=2,
