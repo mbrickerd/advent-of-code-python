@@ -1,6 +1,7 @@
-"""Day 1: Historian Hysteria.
+"""Day 1: Historian Hysteria
 
 This module provides the solution for Advent of Code 2024 - Day 1.
+
 It handles processing and comparing pairs of historical data points.
 
 The module contains a Solution class that inherits from SolutionBase and implements

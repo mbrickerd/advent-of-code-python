@@ -1,6 +1,7 @@
-"""Day 16: Reindeer Maze.
+"""Day 16: Reindeer Maze
 
 This module provides the solution for Advent of Code 2024 - Day 16.
+
 It finds optimal paths through a maze with different movement costs,
 tracking both minimum cost paths and tiles used in optimal routes.
 

@@ -1,6 +1,7 @@
-"""Day 17: Chronospatial Computer.
+"""Day 17: Chronospatial Computer
 
 This module provides the solution for Advent of Code 2024 - Day 17.
+
 It simulates a 3-bit computer with three registers (A, B, C) and eight instructions.
 The solution executes programs with specific register values and finds optimal
 initial values that make the program output itself.

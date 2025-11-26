@@ -1,6 +1,7 @@
-"""Day 11: Plutonian Pebbles.
+"""Day 11: Plutonian Pebbles
 
 This module provides the solution for Advent of Code 2024 - Day 11.
+
 It handles transforming sequences of numbers (stones) according to specific rules
 over multiple iterations (blinks).
 

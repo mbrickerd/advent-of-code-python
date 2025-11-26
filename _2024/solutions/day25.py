@@ -1,6 +1,7 @@
-"""Day 25: Code Chronicle.
+"""Day 25: Code Chronicle
 
 This module provides the solution for Advent of Code 2024 - Day 25.
+
 It handles analyzing lock and key combinations to determine valid pairings.
 
 The solution implements methods to check lock-key compatibility

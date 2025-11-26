@@ -1,6 +1,7 @@
-"""Day 4: Ceres Search.
+"""Day 4: Ceres Search
 
 This module provides the solution for Advent of Code 2024 - Day 4.
+
 It implements pattern searching algorithms in 2D character grids.
 
 The module contains a Solution class that inherits from SolutionBase and implements

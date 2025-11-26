@@ -1,6 +1,7 @@
-"""Day 12: Garden Groups.
+"""Day 12: Garden Groups
 
 This module provides the solution for Advent of Code 2024 - Day 12.
+
 It handles analyzing groups of plants in a garden grid where each connected
 region of identical plants must be fenced.
 

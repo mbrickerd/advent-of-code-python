@@ -1,4 +1,4 @@
-"""Day 23: LAN Party.
+"""Day 23: LAN Party
 
 Analyze player connections and find gaming groups in a network.
 

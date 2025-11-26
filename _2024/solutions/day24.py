@@ -1,4 +1,4 @@
-"""Day 24: Crossed Wires.
+"""Day 24: Crossed Wires
 
 Analyze digital circuits and identify wire connections.
 

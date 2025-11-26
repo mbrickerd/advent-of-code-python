@@ -1,6 +1,7 @@
-"""Day 14: Restroom Redoubt.
+"""Day 14: Restroom Redoubt
 
 This module provides the solution for Advent of Code 2024 - Day 14.
+
 It simulates robots moving in a wrapping grid space with specific velocities,
 tracking their positions over time to solve spatial puzzles.
 

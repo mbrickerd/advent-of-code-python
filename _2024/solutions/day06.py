@@ -1,6 +1,7 @@
-"""Day 6: Guard Gallivant.
+"""Day 6: Guard Gallivant
 
 This module provides the solution for Advent of Code 2024 - Day 6.
+
 It simulates a guard's movement through a grid following specific rules.
 
 The module tracks a guard that moves along a grid with walls, calculating path

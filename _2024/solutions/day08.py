@@ -1,6 +1,7 @@
-"""Day 8: Resonant Collinearity.
+"""Day 8: Resonant Collinearity
 
 This module provides the solution for Advent of Code 2024 - Day 8.
+
 It simulates antenna resonance patterns to find antinodes in a grid.
 
 The module identifies antenna positions and calculates antinodes based on

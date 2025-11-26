@@ -1,6 +1,7 @@
-"""Day 2: Red-Nosed Reports.
+"""Day 2: Red-Nosed Reports
 
 This module provides the solution for Advent of Code 2024 - Day 2.
+
 It handles analysis of numeric sequences with specific monotonicity and
 difference constraints.
 

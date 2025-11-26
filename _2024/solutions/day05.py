@@ -1,6 +1,7 @@
-"""Day 5: Print Queue.
+"""Day 5: Print Queue
 
 This module provides the solution for Advent of Code 2024 - Day 5.
+
 It processes print job ordering challenges according to specific sequencing rules.
 
 The solution validates print orders against rules specifying which pages must be

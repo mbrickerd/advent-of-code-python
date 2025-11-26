@@ -1,6 +1,7 @@
-"""Day 20: Race Condition.
+"""Day 20: Race Condition
 
 This module provides the solution for Advent of Code 2024 - Day 20.
+
 It solves a puzzle about finding shortcuts in a racetrack maze,
 identifying valid cheat moves that save a minimum number of steps.
 """

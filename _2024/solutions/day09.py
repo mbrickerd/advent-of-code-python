@@ -1,6 +1,7 @@
-"""Day 9: Disk Fragmenter.
+"""Day 9: Disk Fragmenter
 
 This module provides the solution for Advent of Code 2024 - Day 9.
+
 It handles simulation of disk defragmentation processes and calculates checksums.
 
 The module contains a Solution class that inherits from SolutionBase and implements

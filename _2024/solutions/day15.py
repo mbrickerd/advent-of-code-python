@@ -1,6 +1,7 @@
-"""Day 15: Warehouse Woes.
+"""Day 15: Warehouse Woes
 
 This module provides the solution for Advent of Code 2024 - Day 15.
+
 It simulates the movement of boxes in a warehouse based on directional commands,
 tracking the final positions to solve warehouse organization puzzles.
 

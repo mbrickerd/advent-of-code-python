@@ -1,6 +1,7 @@
-"""Day 13: Claw Contraption.
+"""Day 13: Claw Contraption
 
 This module provides the solution for Advent of Code 2024 - Day 13.
+
 It handles calculating the minimum number of tokens needed to win prizes in a
 claw machine game, where two buttons control the movement of the claw.
 

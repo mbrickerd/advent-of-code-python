@@ -1,6 +1,7 @@
-"""Day 3: Mull It Over.
+"""Day 3: Mull It Over
 
 This module provides the solution for Advent of Code 2024 - Day 3.
+
 It handles parsing and execution of multiplication and control flow instructions.
 
 The module contains a Solution class that inherits from SolutionBase and implements

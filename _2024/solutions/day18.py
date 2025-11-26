@@ -1,6 +1,7 @@
-"""Day 18: RAM Run.
+"""Day 18: RAM Run
 
 This module provides the solution for Advent of Code 2024 - Day 18.
+
 It solves a pathfinding problem in a corrupted memory grid where bytes fall and block
 specific coordinates. The solution finds paths through uncorrupted spaces and
 determines which falling byte first makes the exit unreachable.

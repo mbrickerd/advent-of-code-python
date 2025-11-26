@@ -1,6 +1,7 @@
-"""Day 21: Keypad Conundrum.
+"""Day 21: Keypad Conundrum
 
 This module provides the solution for Advent of Code 2024 - Day 21.
+
 It solves a puzzle about robots translating movement codes on keypads.
 
 The solution involves simulating robot chains that translate movement between

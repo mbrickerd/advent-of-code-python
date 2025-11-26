@@ -1,6 +1,7 @@
-"""Day 19: Linen Layout.
+"""Day 19: Linen Layout
 
 This module provides the solution for Advent of Code 2024 - Day 19.
+
 It solves a puzzle about arranging towels with colored stripe patterns,
 determining which sequences are possible to create and counting
 the total number of unique ways to arrange towels for each sequence.

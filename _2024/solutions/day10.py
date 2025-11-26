@@ -1,6 +1,7 @@
-"""Day 10: Hoof It.
+"""Day 10: Hoof It
 
 This module provides the solution for Advent of Code 2024 - Day 10.
+
 It handles finding valid hiking trails on a topographic map and calculating
 trailhead scores based on reachable peak positions.
 

@@ -1,6 +1,7 @@
-"""Advent of Code 2024 - Day 22: Monkey Market.
+"""Day 22: Monkey Market
 
 This module provides the solution for Day 22 of Advent of Code 2024.
+
 It solves a puzzle about analyzing secret codes and price patterns
 in a monkey marketplace.
 """

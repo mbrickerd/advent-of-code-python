@@ -1,6 +1,7 @@
-"""Day 7: Bridge Repair.
+"""Day 7: Bridge Repairs
 
 This module provides the solution for Advent of Code 2024 - Day 7.
+
 It handles processing numerical equations for bridge repair calculations.
 
 The module contains a Solution class that inherits from SolutionBase and implements
