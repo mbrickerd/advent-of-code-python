@@ -1,10 +1,10 @@
-"""Test suite for Day 3: Mull It Over.
+"""Test suite for Day 3: Mull It Over
 
 This module contains tests for the Day 3 solution, which handles parsing and
 execution of multiplication and control flow instructions. The tests verify:
 1. Part 1: Calculation of the sum of all multiplication operations
 2. Part 2: Calculation of the sum of enabled multiplication operations based on
-   control flow (do/don't) instructions
+    control flow (do/don't) instructions
 """
 
 from aoc.models.tester import TestSolutionUtility

@@ -1,4 +1,4 @@
-"""Test suite for Day 8: Resonant Collinearity.
+"""Test suite for Day 8: Resonant Collinearity
 
 This module contains tests for the Day 8 solution, which simulates antenna
 resonance patterns to find antinodes in a grid. The tests verify:

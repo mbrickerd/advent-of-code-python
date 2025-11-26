@@ -1,4 +1,4 @@
-"""Test suite for Day 5: Print Queue.
+"""Test suite for Day 5: Print Queue
 
 This module contains tests for the Day 5 solution, which processes print job
 ordering challenges according to specific sequencing rules. The tests verify:

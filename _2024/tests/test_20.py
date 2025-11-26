@@ -1,4 +1,4 @@
-"""Test suite for Day 20: Race Condition.
+"""Test suite for Day 20: Race Condition
 
 This module contains tests for the Day 20 solution, which finds shortcuts in a
 racetrack maze. The tests verify:

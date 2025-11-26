@@ -1,4 +1,4 @@
-"""Test suite for Day 22: Monkey Market.
+"""Test suite for Day 22: Monkey Market
 
 This module contains tests for the Day 22 solution, which analyzes secret codes
 and price patterns in a monkey marketplace. The tests verify:

@@ -1,4 +1,4 @@
-"""Test suite for Day 1: Historian Hysteria.
+"""Test suite for Day 1: Historian Hysteria
 
 This module contains tests for the Day 1 solution, which handles processing and
 comparing pairs of historical data points. The tests verify:

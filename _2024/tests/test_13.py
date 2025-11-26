@@ -1,4 +1,4 @@
-"""Test suite for Day 13: Claw Contraption.
+"""Test suite for Day 13: Claw Contraption
 
 This module contains tests for the Day 13 solution, which solves a puzzle involving
 a claw machine game where two buttons control movement. The tests verify:

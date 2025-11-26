@@ -1,4 +1,4 @@
-"""Test suite for Day 11: Plutonian Pebbles.
+"""Test suite for Day 11: Plutonian Pebbles
 
 This module contains tests for the Day 11 solution, which handles transforming
 sequences of numbers (stones) according to specific rules over multiple iterations.

@@ -1,4 +1,4 @@
-"""Test suite for Day 17: Chronospatial Computer.
+"""Test suite for Day 17: Chronospatial Computer
 
 This module contains tests for the Day 17 solution, which simulates a 3-bit
 computer with three registers and eight instructions. The tests verify:

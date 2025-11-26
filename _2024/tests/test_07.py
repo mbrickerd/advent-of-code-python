@@ -1,4 +1,4 @@
-"""Test suite for Day 7: Bridge Repair.
+"""Test suite for Day 7: Bridge Repair
 
 This module contains tests for the Day 7 solution, which handles processing
 numerical equations for bridge repair calculations. The tests verify:

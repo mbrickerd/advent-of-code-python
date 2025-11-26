@@ -1,4 +1,4 @@
-"""Test suite for Day 18: RAM Run.
+"""Test suite for Day 18: RAM Run
 
 This module contains tests for the Day 18 solution, which involves pathfinding
 in a corrupted memory space. The tests verify:

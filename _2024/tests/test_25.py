@@ -1,4 +1,4 @@
-"""Test suite for Day 25: Code Chronicle.
+"""Test suite for Day 25: Code Chronicle
 
 This module contains tests for the Day 25 solution, which analyzes lock and key
 combinations to determine valid pairings. The tests verify:

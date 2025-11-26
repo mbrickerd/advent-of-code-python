@@ -1,4 +1,4 @@
-"""Test suite for Day 15: Warehouse Woes.
+"""Test suite for Day 15: Warehouse Woes
 
 This module contains tests for the Day 15 solution, which handles moving boxes
 in a warehouse using directional commands. The tests verify:

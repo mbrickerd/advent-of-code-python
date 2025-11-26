@@ -1,4 +1,4 @@
-"""Test suite for Day 6: Guard Gallivant.
+"""Test suite for Day 6: Guard Gallivant
 
 This module contains tests for the Day 6 solution, which simulates a guard's
 movement through a grid following specific rules. The tests verify:

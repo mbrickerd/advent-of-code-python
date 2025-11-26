@@ -1,9 +1,9 @@
-"""Test suite for Day 2: Red-Nosed Reports.
+"""Test suite for Day 2: Red-Nosed Reports
 
 This module contains tests for the Day 2 solution, which analyzes numeric sequences
 with specific monotonicity and difference constraints. The tests verify:
 1. Part 1: Identification of strictly increasing/decreasing sequences with adjacent
-   differences between 1 and 3
+    differences between 1 and 3
 2. Part 2: Handling of sequences where removing one number creates a valid sequence
 """
 

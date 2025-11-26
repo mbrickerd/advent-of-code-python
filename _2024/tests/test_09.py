@@ -1,4 +1,4 @@
-"""Test suite for Day 9: Disk Fragmenter.
+"""Test suite for Day 9: Disk Fragmenter
 
 This module contains tests for the Day 9 solution, which handles simulation
 of disk defragmentation processes and calculates checksums. The tests verify:

@@ -1,4 +1,4 @@
-"""Test suite for Day 19: Linen Layout.
+"""Test suite for Day 19: Linen Layout
 
 This module contains tests for the Day 19 solution, which analyzes arranging
 towels with colored stripe patterns. The tests verify:

@@ -1,4 +1,4 @@
-"""Test suite for Day 16: Reindeer Maze.
+"""Test suite for Day 16: Reindeer Maze
 
 This module contains tests for the Day 16 solution, which finds optimal paths
 through a maze with movement costs. The tests verify:

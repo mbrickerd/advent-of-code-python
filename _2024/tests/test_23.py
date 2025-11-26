@@ -1,4 +1,4 @@
-"""Test suite for Day 23: LAN Party.
+"""Test suite for Day 23: LAN Party
 
 This module contains tests for the Day 23 solution, which analyzes LAN party
 connections and finds gaming groups. The tests verify:

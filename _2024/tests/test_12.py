@@ -1,4 +1,4 @@
-"""Test suite for Day 12: Garden Groups.
+"""Test suite for Day 12: Garden Groups
 
 This module contains tests for the Day 12 solution, which handles analyzing groups
 of plants in a garden grid where each connected region must be fenced. The tests verify:

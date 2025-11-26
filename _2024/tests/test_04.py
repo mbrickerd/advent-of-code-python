@@ -1,4 +1,4 @@
-"""Test suite for Day 4: Ceres Search.
+"""Test suite for Day 4: Ceres Search
 
 This module contains tests for the Day 4 solution, which implements pattern
 searching algorithms in 2D character grids. The tests verify:

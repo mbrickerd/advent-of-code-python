@@ -1,4 +1,4 @@
-"""Test suite for Day 10: Hoof It.
+"""Test suite for Day 10: Hoof It
 
 This module contains tests for the Day 10 solution, which handles finding
 valid hiking trails on a topographic map and calculating trailhead scores

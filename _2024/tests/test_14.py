@@ -1,4 +1,4 @@
-"""Test suite for Day 14: Restroom Redoubt.
+"""Test suite for Day 14: Restroom Redoubt
 
 This module contains tests for the Day 14 solution, which simulates robots
 moving in a confined grid space. The tests verify:

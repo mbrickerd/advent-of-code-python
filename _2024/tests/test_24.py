@@ -1,4 +1,4 @@
-"""Test suite for Day 24: Crossed Wires.
+"""Test suite for Day 24: Crossed Wires
 
 This module contains tests for the Day 24 solution, which analyzes digital circuits
 and identifies wire connections. The tests verify:

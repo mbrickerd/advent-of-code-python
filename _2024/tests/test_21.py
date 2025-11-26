@@ -1,4 +1,4 @@
-"""Test suite for Day 21: Keypad Conundrum.
+"""Test suite for Day 21: Keypad Conundrum
 
 This module contains tests for the Day 21 solution, which solves puzzles about
 robots translating movement codes on keypads. The tests verify:
