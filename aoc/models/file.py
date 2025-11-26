@@ -115,7 +115,7 @@ class File:
             - `data/dayXX/puzzle_input.txt`
         """
         path = Authenticator.get_path()
-        solution_path = path / str(year) / f"solutions/day{day:02}.py"
+        solution_path = path / f"_{year}" / f"solutions/day{day:02}.py"
 
         if not solution_path.exists():
             sample_file = path / "templates/solutions/sample.py"
@@ -124,7 +124,7 @@ class File:
             solution_path.write_text(content)
             logger.info(f"Created file: {solution_path}")
 
-        folder_path = path / str(year) / f"data/day{day:02}"
+        folder_path = path / f"_{year}" / f"data/day{day:02}"
         folder_path.mkdir(parents=True, exist_ok=True)
 
         file_path = folder_path / "puzzle_input.txt"
@@ -168,7 +168,7 @@ class File:
             Creates file at: `tests/data/dayXX/test_XX_input.txt`
         """
         path = Authenticator.get_path()
-        folder_path = path / str(year) / f"tests/data/day{day:02}"
+        folder_path = path / f"_{year}" / f"tests/data/day{day:02}"
         folder_path.mkdir(parents=True, exist_ok=True)
 
         file_path = folder_path / f"test_{part_num:02d}_input.txt"
@@ -220,7 +220,7 @@ class File:
             FileNotFoundError: If the template file is not found.
         """
         path = Authenticator.get_path()
-        test_path = path / str(year) / f"tests/test_{day:02}.py"
+        test_path = path / f"_{year}" / f"tests/test_{day:02}.py"
 
         logger.info(f"Test file path: {test_path}")
 

@@ -37,7 +37,7 @@ class Reader:
         """
         file_path = (
             cls.PROJECT_ROOT
-            / str(year)
+            / f"_{year}"
             / "tests"
             / "data"
             / f"day{day:02d}"
@@ -67,7 +67,7 @@ class Reader:
         -------
             The puzzle input as a string or list of strings
         """
-        file_path = cls.PROJECT_ROOT / str(year) / "data" / f"day{day:02d}" / "puzzle_input.txt"
+        file_path = cls.PROJECT_ROOT / f"_{year}" / "data" / f"day{day:02d}" / "puzzle_input.txt"
 
         with Path.open(file_path) as f:
             content = f.read()
