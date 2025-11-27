@@ -160,7 +160,7 @@ To download puzzle inputs and submit answers, you need to configure your Advent 
 
 1. Find your session cookie:
 
-   - Go to (adventofcode.com)[https://adventofcode.com/] and log in
+   - Go to [adventofcode.com](https://adventofcode.com/) and log in
 
    - Open your browser's Developer Tools:
 
