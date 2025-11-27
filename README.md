@@ -20,6 +20,7 @@ All dependencies and tools are defined in `pyproject.toml` for deterministic env
 
 ```plaintext
 .
+├── _2022/                    # 2022 Advent of Code solutions
 ├── _2023/                    # 2023 Advent of Code solutions
 ├── _2024/                    # 2024 Advent of Code solutions
 ├── _2025/                    # 2025 Advent of Code solutions
