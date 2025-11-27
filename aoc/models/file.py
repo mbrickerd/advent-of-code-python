@@ -114,6 +114,7 @@ class File:
             sample_file = path / "templates/solutions/sample.py"
             content = sample_file.read_text()
 
+            solution_path.parent.mkdir(parents=True, exist_ok=True)
             solution_path.write_text(content)
             logger.info(f"Created file: {solution_path}")
 
@@ -229,5 +230,6 @@ class File:
             content = sample_file.read_text().format(year=year, day=day)
 
             # Write the formatted content
+            test_path.parent.mkdir(parents=True, exist_ok=True)
             test_path.write_text(content)
             logger.info(f"Created file: {test_path}")

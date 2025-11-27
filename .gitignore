@@ -12,7 +12,7 @@ __pycache__/
 .idea/
 .cursor/
 
-*.DS_Store/
-*uv.lock
+.DS_Store
+uv.lock
 
-*.envrc
+.envrc
