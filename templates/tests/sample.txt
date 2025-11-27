@@ -10,7 +10,7 @@ given test inputs.
 """
 from aoc.models.tester import TestSolutionUtility
 
-def test_day{day:02d}_part1():
+def test_day{day:02d}_part1() -> None:
     """Test the solution for Part 1 of the daily puzzle.
 
     This test runs the solution for Part 1 of the puzzle against the
@@ -24,7 +24,7 @@ def test_day{day:02d}_part1():
         expected=9999999999999,
     )
 
-def test_day{day:02d}_part2():
+def test_day{day:02d}_part2() -> None:
     """Test the solution for Part 2 of the daily puzzle.
 
     This test runs the solution for Part 2 of the puzzle against the
