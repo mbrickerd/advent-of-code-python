@@ -17,3 +17,5 @@ aoc_session
 
 *.DS_Store
 *uv.lock
+
+*.envrc

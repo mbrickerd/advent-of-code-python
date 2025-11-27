@@ -41,11 +41,8 @@ class File:
             Requires valid session token and headers configuration.
             Year is determined from the project directory name.
         """
-        session = Authenticator.get_session()
         headers = Authenticator.get_headers()
-
         headers["Referer"] = f"https://adventofcode.com/{year}/day/{day}"
-        headers["Cookie"] = f"session={session}"
 
         url = f"https://adventofcode.com/{year}/day/{day}/input"
         method = "GET"
@@ -54,7 +51,6 @@ class File:
 
         logger.debug(f"URL: {url}")
         logger.debug(f"Headers: {headers}")
-        logger.debug(f"Session token length: {len(session)}")
 
         with Session() as sess:
             response = sess.send(prepped_request)
@@ -79,11 +75,8 @@ class File:
             Extracts test input from code blocks in the puzzle description.
             Part number determines which code block to use.
         """
-        session = Authenticator.get_session()
         headers = Authenticator.get_headers()
-
         headers["Referer"] = f"https://adventofcode.com/{year}/day/{day}"
-        headers["Cookie"] = f"session={session}"
 
         url = f"https://adventofcode.com/{year}/day/{day}"
         response = requests.get(url, headers=headers, timeout=30)
@@ -134,7 +127,7 @@ class File:
 
         if file_path.stat().st_size == 0:
             now = datetime.now()
-            available_to_download = datetime(int(path.parts[-1].split("-")[-1]), 12, day, 5, 0, 0)
+            available_to_download = datetime(year, 12, day, 5, 0, 0)
 
             if now < available_to_download:
                 logger.info(
@@ -178,7 +171,7 @@ class File:
 
         if file_path.stat().st_size == 0:
             now = datetime.now()
-            available_to_download = datetime(int(path.parts[-1].split("-")[-1]), 12, day, 5, 0, 0)
+            available_to_download = datetime(year, 12, day, 5, 0, 0)
 
             if now < available_to_download:
                 logger.info(

@@ -41,11 +41,8 @@ class Submission:
             - Removes common hints/help text
             - Preserves important punctuation in separate lines for readability
         """
-        session = Authenticator.get_session()
         headers = Authenticator.get_headers()
-
         headers["Referer"] = f"https://adventofcode.com/{year}/day/{day}"
-        headers["Cookie"] = f"session={session}"
 
         url = f"https://adventofcode.com/{year}/day/{day}/answer"
         method = "POST"

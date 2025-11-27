@@ -5,7 +5,7 @@ Provides methods to retrieve project paths and authentication details
 for interacting with the Advent of Code platform.
 """
 
-import json
+import os
 from pathlib import Path
 
 
@@ -26,26 +26,9 @@ class Authenticator:
         return aoc_dir.parent
 
     @staticmethod
-    def get_session() -> str:
-        """
-        Retrieve the Advent of Code session token from a local file.
-
-        Returns
-        -------
-            Stripped session token for authentication.
-
-        Raises
-        ------
-            FileNotFoundError: If the session file is missing.
-            IOError: If there are issues reading the session file.
-        """
-        session_path = Authenticator.get_path() / "aoc_session"
-        return session_path.read_text().strip()
-
-    @staticmethod
     def get_headers() -> dict[str, str]:
         """
-        Load HTTP headers configuration from a JSON file.
+        Construct HTTP headers for Advent of Code API requests.
 
         Returns
         -------
@@ -53,9 +36,15 @@ class Authenticator:
 
         Raises
         ------
-            FileNotFoundError: If the headers configuration file is missing.
-            json.JSONDecodeError: If the JSON is malformed.
+            ValueError: If AOC_SESSION, GITHUB_USERNAME, or GITHUB_USER_EMAIL environment
+                variables are not set.
         """
-        headers_config_path = Authenticator.get_path() / "aoc_headers.json"
-        headers: dict[str, str] = json.loads(headers_config_path.read_text().strip())
-        return headers
+        session = os.getenv("AOC_SESSION")
+        username = os.getenv("GITHUB_USERNAME")
+        email = os.getenv("GITHUB_USER_EMAIL")
+
+        if not username or not email:
+            err_msg = "GITHUB_USERNAME and GITHUB_USER_EMAIL environment variables are not set"
+            raise ValueError(err_msg)
+
+        return {"Cookie": f"session={session}", "User-Agent": f"{username} (contact: {email})"}

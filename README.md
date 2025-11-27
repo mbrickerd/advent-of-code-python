@@ -1,66 +1,50 @@
 # Advent of Code
 
-Advent of Code is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. People use them as interview prep, company training, university coursework, practice problems, a speed contest, or to challenge each other.
+A modular Python framework for efficiently tackling Advent of Code challenges, designed for clarity, quality, and easy setup. The repository supports day-by-day workflows for solving, testing, and submitting solutions, with strong emphasis on reproducible results and consistent code standards.
 
-## Getting started
+## Tooling
 
-#### Clone the Repository:
+- [**uv**](https://docs.astral.sh/uv/) for Python dependency management and virtual environments.
 
-```bash
-https://github.com/mbrickerd/advent-of-code
-```
+- [**direnv**](https://direnv.net/) to handle loading and unloading environment variables depending on the current directory.
 
-#### Install Dependencies:
+- [**pre-commit**](https://pre-commit.com/#install) to enforce code quality on every commit with the following hooks:
 
-This project uses `uv` for dependency management and `pre-commit` for maintaining code quality. Follow these steps to set up your development environment:
+   - [**ruff**](https://docs.astral.sh/ruff/) for fast formatting and linting.
 
-1. First, install `uv`:
+   - [**mypy**](https://mypy.readthedocs.io/en/stable/) for static type checking.
 
-   **On Unix-like systems (Linux, macOS):**
-   ```bash
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
-
-   **On Windows:**
-   ```powershell
-   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-   ```
-
-   For more installation options, visit [uv's installation guide](https://github.com/astral-sh/uv).
-
-2. Install project dependencies:
-
-   ```bash
-   make install
-   ```
-
-   This command will:
-   - Install all project dependencies using `uv`
-   - Set up pre-commit hooks for code quality
-
-3. Individual development tools can be managed using make commands:
-
-   ```bash
-   make help              # Show all available commands
-   make lint              # Run ruff linting checks
-   make format            # Format code and organize imports
-   make type-check        # Run mypy type checking
-   make test              # Run pytest
-   make all               # Run format, lint, type-check, and test
-   ```
+All dependencies and tools are defined in `pyproject.toml` for deterministic environments.
 
 ## Project structure
 
-This repository is a modular and efficient framework designed to manage and solve Advent of Code challenges. It streamlines daily task setup, input handling, and solution submission while offering comprehensive testing and benchmarking capabilities.
-
-```hcl
+```plaintext
 .
-├── .github
-│   └── workflows
-│       └── python-ci.yml
-├── aoc
+├── _2023/                    # 2023 Advent of Code solutions
+├── _2024/                    # 2024 Advent of Code solutions
+├── _2025/                    # 2025 Advent of Code solutions
+│   ├── solutions/
+│   │   ├── day01.py          # Solution for Day 1, 2025
+│   │   ├── day02.py          # Solution for Day 2, 2025
+│   │   └── ...
+│   ├── data/
+│   │   ├── day01
+│   │   │   └── puzzle_input.txt
+│   │   ├── day02
+│   │   │   └── puzzle_input.txt
+│   │   └── ...
+│   └── tests/
+│       ├── data/
+│       ├── __init__.py
+│       ├── test_01.py        # Tests for Day 1, 2025
+│       ├── test_02.py        # Tests for Day 2, 2025
+│       └── ...
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── aoc/
 │   ├── __init__.py
-│   ├── models
+│   ├── models/
 │   │   ├── __init__.py
 │   │   ├── authenticator.py   # Manages Advent of Code authentication credentials
 │   │   ├── base.py            # Base class definitions for shared functionality
@@ -68,245 +52,199 @@ This repository is a modular and efficient framework designed to manage and solv
 │   │   ├── reader.py          # Reads and parses input data for the solution
 │   │   ├── submission.py      # Logic for submitting answers to AoC
 │   │   └── tester.py          # Utilities for testing solutions
-│   └── utils
+│   └── utils/
 │       ├── __init__.py
 │       └── initialise.py      # Utilities for initializing daily solution files
-├── 2024                       # 2024 Advent of Code solutions
-│   ├── solutions
-│   │   ├── day01.py          # Solution for Day 1, 2024
-│   │   ├── day02.py          # Solution for Day 2, 2024
-│   │   └── ...
-│   ├── data
-│   │   ├── day01
-│   │   │   └── puzzle_input.txt
-│   │   ├── day02
-│   │   │   └── puzzle_input.txt
-│   │   └── ...
-│   └── tests
-│       ├── __init__.py
-│       ├── data
-│       │   ├── day01
-│       │   │   ├── test_01_input.txt
-│       │   │   └── test_02_input.txt
-│       │   ├── day02
-│       │   │   ├── test_01_input.txt
-│       │   │   └── test_02_input.txt
-│       │   └── ...
-│       ├── test_01.py        # Tests for Day 1, 2024
-│       ├── test_02.py        # Tests for Day 2, 2024
-│       └── ...
-├── 2023                       # 2023 Advent of Code solutions
-│   ├── solutions
-│   │   ├── day01.py          # Solution for Day 1, 2023
-│   │   ├── day02.py          # Solution for Day 2, 2023
-│   │   └── ...
-│   ├── data
-│   │   ├── day01
-│   │   │   └── puzzle_input.txt
-│   │   ├── day02
-│   │   │   └── puzzle_input.txt
-│   │   └── ...
-│   └── tests
-│       ├── __init__.py
-│       ├── data
-│       │   ├── day01
-│       │   │   ├── test_01_input.txt
-│       │   │   └── test_02_input.txt
-│       │   ├── day02
-│       │   │   ├── test_01_input.txt
-│       │   │   └── test_02_input.txt
-│       │   └── ...
-│       ├── test_01.py        # Tests for Day 1, 2023
-│       ├── test_02.py        # Tests for Day 2, 2023
-│       └── ...
-├── templates
-│   ├── solutions
-│   │   └── sample.py         # Template for new daily solution files
-│   └── tests
-│       └── sample.txt        # Template for test cases
+├── templates/
 ├── .gitignore
-├── .pre-commit-config.yaml   # Pre-commit hooks configuration
-├── main.py                   # Main script to manage tasks and run solutions
-├── pyproject.toml            # Project dependencies and configuration
+├── .pre-commit-config.yaml    # Pre-commit hooks configuration
+├── main.py                    # Main script to manage tasks and run solutions
+├── pyproject.toml             # Project dependencies and configuration
 └── README.md
 ```
 
-### Key Directories and Files
+- `aoc/`: Auth, input reading, submission, test/utility modules.
 
-#### `aoc/`
+- `solutions/`: One file per Advent of Code day/year.
 
-This is the core package for the project. It includes:
+- `data/` and `tests/`: Daily inputs and unit test scaffolds.
 
-- Models: Classes to manage input/output handling, submission logic, and testing frameworks.
-- Utils: Helper functions to set up new challenges, such as generating boilerplate solution files.
+- `main.py`: Command-line interface for all core actions.
 
-#### `solutions/`
+## Setup Instructions
 
-Contains the solution files for each day's challenge. Each file represents a self-contained solution where you implement logic for both parts of the day's task.
+1. Install `uv` (if not already available):
 
-#### `templates/`
+   - Unix/macOS:
 
-Stores reusable templates for generating boilerplate code and test cases. These templates help standardize the structure of solution and test files.
+      ```bash
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+      ```
 
-#### `tests/`
+   - Windows (PowerShell):
 
-Houses the test files for validating daily solutions. Users can provide expected values to ensure solution accuracy before submission.
+      ```bash
+      irm https://astral.sh/uv/install.ps1 | iex
+      ```
 
-#### `main.py`
+3. Install `direnv`:
 
-The central script to perform various tasks such as:
+   - macOS (using Homebrew):
 
-- Downloading daily puzzle input.
-- Generating boilerplate code for solutions and test cases.
-- Running solutions and tests.
-- Benchmarking solution performance.
-- Submitting answers directly to the Advent of Code website.
+      ```bash
+      brew install direnv
+      ```
 
-#### `Makefile`
+   - Linux/Unix:
 
-Provides convenient commands for common development tasks:
-- Installing dependencies
-- Setting up pre-commit hooks
-- Running code quality checks (`ruff`, `mypy`)
-- Executing tests
-- Formatting code
+      ```bash
+      # Ubuntu/Debian
+      sudo apt install direnv
 
-#### `.pre-commit-config.yaml`
+      # Fedora
+      sudo dnf install direnv
 
-Configures pre-commit hooks that run automatically before each commit to ensure code quality:
-- Code formatting
-- Import sorting
-- Linting
-- Type checking
+      # Arch
+      sudo pacman -S direnv
+      ```
 
-#### `.github/workflows/python-ci.yml`
+   - Windows:
 
-GitHub Actions workflow configuration that automates:
-- Code quality checks on every push and pull request
-- Test execution after successful linting
-- Dependency caching for faster builds
+      ```bash
+      # Using Scoop
+      scoop install direnv
+
+      # Using Chocolatey
+      choco install direnv
+      ```
+
+   After installation, add the hook to your shell configuration:
+
+      - For bash (`~/.bashrc` or `~/.bash_profile`):
+
+         ```bash
+         eval "$(direnv hook bash)"
+         ```
+
+      - For zsh (`~/.zshrc`):
+
+         ```bash
+         eval "$(direnv hook zsh)"
+         ```
+
+      - For PowerShell (add to your profile):
+
+         ```bash
+         Invoke-Expression "$(direnv hook pwsh)"
+         ```
+
+   Restart your shell or source your config file after adding the hook.
+
+2. Install project dependencies:
+
+   ```bash
+   uv sync --all-extras --dev
+   ```
+
+3. Set up pre-commit hooks:
+
+   ```bash
+   pre-commit install
+   ```
+
+   Hooks will auto-run `ruff` and `mypy` checks before every commit.
+
+## AoC session cookie
+
+To download puzzle inputs and submit answers, you need to configure your Advent of Code session cookie:
+
+1. Find your session cookie:
+
+   - Go to (adventofcode.com)[https://adventofcode.com/] and log in
+
+   - Open your browser's Developer Tools:
+
+      - Chrome/Edge/Brave: Right-click → "Inspect" or press `Ctrl+Shift+I` (`Cmd+Option+I` on Mac)
+
+      - Firefox: Press `F12`
+
+   - Navigate to the "Application" tab (Chrome/Edge) or "Storage" tab (Firefox)
+
+   - Expand "Cookies" and select "https://adventofcode.com"
+
+   - Find the cookie named session and copy its value
+
+2. Create a `.envrc` file in the project root:
+
+   ```plaintext
+   export AOC_SESSION=your_session_cookie_value_here
+   export GITHUB_USERNAME=github_user
+   export GITHUB_USER_EMAIL=user@github.com
+   ```
+
+3. Allow `direnv` to load the environment variables:
+
+   ```bash
+   direnv allow .
+   ```
+
+The session cookie will now automatically load when you cd into the project directory. Make sure `.envrc` is in your `.gitignore` to keep your credentials private.
 
 ## Usage
 
-```bash
-python main.py [-h] [-d day_number] [-p part_number] [--raw] [--add] [--add-test-file test_number] [--skip-test] [--benchmark] [--submit]
-```
+- Help and available commands:
 
-## Advent of Code solution runner
+   ```bash
+   uv run python main.py --help
+   ```
 
-```hcl
-options:
-  -h, --help                            show this help message and exit
-  -d day_number, --day day_number       Required, day number of the AoC event
-  -p part_number, --part part_number    Optional, part number of the day of the AoC event
-  --raw                                 Optional, use raw input instead of stripped input
-  --add                                 Optional, create daily solution file and downloads puzzle input
-  --add-test-file                       Optional, create additional test files
-  --add-test-input                      Optional, download test input
-  --skip-test                           Optional, skipping tests
-  --benchmark                           Optional, benchmarking the code, and also skipping tests
-  --submit                              Optional, submit your answer to AoC
-```
+- Scaffold a new day's solution and input:
 
-## Example workflow
+   ```bash
+   uv run python main.py --year <YEAR> --day <DAY> --add
+   ```
 
-Follow these steps to work on and solve a specific Advent of Code day using this project:
+- Validate a part using test input:
 
-#### Create a new daily solution file and download puzzle input data
+   ```bash
+   uv run python main.py --year <YEAR> --day <DAY> --part <PART> --add-test-input
+   uv run python main.py --year <YEAR> --day <DAY> --part <PART>
+   ```
 
-To scaffold a new `Solution` class for a specific day:
+- Solve full puzzle input:
 
-```bash
-python main.py --year [year_number] --day [day_number] --add
-```
+   ```bash
+   uv run python main.py --year <YEAR> --day <DAY> --part <PART> --skip-test
+   ```
 
-This will create a new solution file in the `solutions/` directory (e.g., `solutions/dayXX.py`) and download the test input data for the specified day and create the corresponding `test_ZZ_input.txt` file in the `data/dayXX/` directory. Add your logic for `part1` and `part2` methods in the generated solution file.
+- Submit your answer:
 
-#### Test your solution
+   ```bash
+   uv run python main.py --year YEAR --day DAY --part PART --skip-test --submit
+   ```
 
-To validate a specific part of your solution (e.g., `part1` or `part2`), follow these steps:
+- Run all tests:
 
-1. Download Test Input:
+   ```bash
+   uv run pytest
+   ```
 
-Use the following command to fetch the test input for the desired part:
+All core workflows utilize the CLI, and the testing framework is fully integrated.
 
-```bash
-python main.py --year [year_number] --day [day_number] --part [part_number] --add-test-input
-```
+## CI and code quality checks
 
-This will create a test input file in the appropriate location (e.g., `data/dayXX/test_ZZ_input.txt`).
+GitHub Actions continuously check code quality on push/PR:
 
-2. Run Your Solution with the Test Input:
+- **Formatting**: `uv run ruff format --check .`
 
-Execute your solution for the specified day and part to verify its correctness:
+- **Linting**: `uv run ruff check .`
 
-```bash
-python main.py --year [year_number] --day [day_number] --part [part_number]
-```
+- **Type checking**: `uv run mypy ...`
 
-The framework will load the test input file and run the corresponding method from the `Solution` class for that part.
+- **Tests**: `uv run pytest tests`
 
-3. Verify the Output:
-
-Compare the output produced by your solution with the expected results. If discrepancies arise, review your logic or test input for potential issues.
-
-By ensuring your solution matches the expected output during these tests, you can confidently proceed to full input runs or submissions.
-
-#### Solve using full puzzle input
-
-To run your solution on the full puzzle input after testing:
-
-```bash
-python main.py --year [year_number] --day [day_number] --part [part_number] --skip-test
-```
-
-This bypasses the test phase and directly runs the solution on the full input dataset (`data/dayXX/puzzle_input.txt`).
-
-#### Submit your answer
-
-If you're confident in your solution and want to submit the result to Advent of Code:
-
-```bash
-python main.py --year [year_number] --day [day_number] --part [part_number] --skip-test --submit
-```
-
-This will submit your answer for the specified day and part directly to Advent of Code.
-
-
-## Testing
-
-Testing your solutions ensures that your logic is accurate and aligns with the problem's requirements. This framework also integrates with PyTest to streamline the validation process for each day's challenge.
-
-#### Setting Up Test Files
-
-When you are ready to add test cases for a specific day, you can generate a test file using the following command:
-
-```bash
-python main.py --year [year_number] --day [day_number] --add-test-file
-```
-
-This command will create a template test file in the `tests/` directory, named `test_<day_number>.py`. The template is pre-configured to match the structure of the Solution class for that day, making it easier to insert test cases.
-
-#### Writing Test Cases
-
-Navigate to the `tests/` directory and open the corresponding test file. Populate the test methods with the expected outputs from the Advent of Code problem description.
-
-#### Running the Tests
-
-To run all tests, simply execute the following command from the root directory:
-
-```bash
-pytest
-```
-
-You can also run tests for a specific day by specifying the file:
-
-```bash
-pytest tests/test_<day_number>.py
-```
-
-This will output detailed results, showing which tests passed, failed, or encountered errors.
+These match the checks enforced by local pre-commit.
 
 ## Acknowledgments
 
-This project structure was inspired by [nitekat1124's Advent of Code 2023 repository](https://github.com/nitekat1124/advent-of-code-2023).
+This project structure was inspired by nitekat1124's [Advent of Code repository](https://github.com/nitekat1124/advent-of-code-2023).
