@@ -120,7 +120,12 @@ def main() -> None:
     elif not args.skip_test:
         logger.info(f"Testing day {args.day} part {args.part}\n")
         solution = initialise(
-            args.day, args.part, raw=args.raw, skip_test=args.skip_test, benchmark=args.benchmark
+            args.year,
+            args.day,
+            args.part,
+            raw=args.raw,
+            skip_test=args.skip_test,
+            benchmark=args.benchmark,
         )
         logger.info(
             f"The test answer is {answer}\n"
@@ -132,7 +137,12 @@ def main() -> None:
     else:
         logger.info(f"Solving day {args.day} part {args.part}\n")
         solution = initialise(
-            args.day, args.part, raw=args.raw, skip_test=args.skip_test, benchmark=args.benchmark
+            args.year,
+            args.day,
+            args.part,
+            raw=args.raw,
+            skip_test=args.skip_test,
+            benchmark=args.benchmark,
         )
         logger.info(
             f"The answer is {answer}\n"
