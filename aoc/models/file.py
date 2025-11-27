@@ -226,7 +226,7 @@ class File:
                 raise FileNotFoundError(error_msg)
 
             # Read and format content
-            content = sample_file.read_text().format(day=day)
+            content = sample_file.read_text().format(year=year, day=day)
 
             # Write the formatted content
             test_path.write_text(content)

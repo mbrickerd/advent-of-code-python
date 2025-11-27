@@ -208,6 +208,7 @@ The session cookie will now automatically load when you cd into the project dire
 
    ```bash
    uv run python main.py --year <YEAR> --day <DAY> --part <PART> --add-test-input
+   uv run python main.py --year <YEAR> --day <DAY> --part <PART> --add-test-file
    uv run python main.py --year <YEAR> --day <DAY> --part <PART>
    ```
 
