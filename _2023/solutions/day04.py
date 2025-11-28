@@ -1,6 +1,7 @@
 """Day 4: Scratchcards
 
 This module provides the solution for Advent of Code 2023 - Day 4.
+
 It handles scoring scratchcards where each card has two sets of numbers:
 winning numbers and numbers you have. Points are calculated based on matching
 numbers, and cards can win copies of subsequent cards.
