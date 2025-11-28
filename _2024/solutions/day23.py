@@ -12,12 +12,12 @@ small gaming groups (trios) that include specific computers and the largest
 possible fully-connected group representing the actual LAN party location.
 
 The module contains a Solution class that inherits from SolutionBase and
-implements methods using NetworkX to find cliques in the connection graph.
+implements methods using rustworkx with custom clique detection.
 """
 
 from itertools import combinations
 
-import networkx as nx
+import rustworkx as rx
 
 from aoc.models.base import SolutionBase
 
@@ -29,15 +29,15 @@ class Solution(SolutionBase):
     - Part 1: Count trios of interconnected computers with Chief Historian hint
     - Part 2: Find the largest fully-connected group (maximum clique)
 
-    The solution uses NetworkX graph library to model the network and efficiently
-    find all cliques, which represent groups of computers that can all directly
-    communicate with each other.
+    The solution uses rustworkx graph library to model the network with manual
+    clique finding implementation, which represent groups of computers that can
+    all directly communicate with each other.
     """
 
-    def construct_graph(self, data: list[str]) -> nx.Graph:
+    def construct_graph(self, data: list[str]) -> rx.PyGraph:
         """Construct an undirected graph from connection data.
 
-        Creates a NetworkX graph where nodes represent computers and edges
+        Creates a rustworkx graph where nodes represent computers and edges
         represent direct network connections between them. Each connection
         is bidirectional.
 
@@ -46,15 +46,59 @@ class Solution(SolutionBase):
 
         Returns
         -------
-            NetworkX Graph object representing the computer network
+            rustworkx PyGraph object representing the computer network
         """
-        graph: nx.Graph = nx.Graph()
-        edges = []
+        graph = rx.PyGraph()
+        node_map = {}
+
         for line in data:
             source, target = line.split("-")
-            edges.append((source, target))
-        graph.add_edges_from(edges)
+
+            if source not in node_map:
+                node_map[source] = graph.add_node(source)
+            if target not in node_map:
+                node_map[target] = graph.add_node(target)
+
+            graph.add_edge(node_map[source], node_map[target], None)
+
         return graph
+
+    def _bron_kerbosch_recursive(
+        self, graph: rx.PyGraph, r: set[int], p: set[int], x: set[int], cliques: list[list[str]]
+    ) -> None:
+        """Recursive helper for Bron-Kerbosch algorithm.
+
+        Args:
+            graph: rustworkx PyGraph to search
+            r: Current clique being built
+            p: Candidate nodes to extend clique
+            x: Already processed nodes
+            cliques: List to accumulate found cliques
+        """
+        if not p and not x:
+            cliques.append([graph[node] for node in r])
+            return
+
+        for v in list(p):
+            neighbors = set(graph.neighbors(v))
+            self._bron_kerbosch_recursive(graph, r | {v}, p & neighbors, x & neighbors, cliques)
+            p.remove(v)
+            x.add(v)
+
+    def find_cliques(self, graph: rx.PyGraph) -> list[list[str]]:
+        """Find all maximal cliques using Bron-Kerbosch algorithm.
+
+        Args:
+            graph: rustworkx PyGraph to search
+
+        Returns
+        -------
+            List of maximal cliques, where each clique is a list of node labels
+        """
+        cliques: list[list[str]] = []
+        all_nodes = set(graph.node_indices())
+        self._bron_kerbosch_recursive(graph, set(), all_nodes, set(), cliques)
+        return cliques
 
     def part1(self, data: list[str]) -> int:
         """Count sets of three interconnected computers including the Chief Historian.
@@ -73,7 +117,7 @@ class Solution(SolutionBase):
         graph = self.construct_graph(data)
         teacher_cliques = [
             clique
-            for clique in nx.find_cliques(graph)
+            for clique in self.find_cliques(graph)
             if len(clique) >= 3 and any(node.startswith("t") for node in clique)
         ]
 
@@ -101,5 +145,5 @@ class Solution(SolutionBase):
             Password string of alphabetically sorted computer IDs joined by commas
         """
         graph = self.construct_graph(data)
-        largest_clique = max(nx.find_cliques(graph), key=len)
+        largest_clique = max(self.find_cliques(graph), key=len)
         return ",".join(sorted(largest_clique))
