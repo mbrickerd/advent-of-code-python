@@ -2,7 +2,7 @@
 name = "aoc"
 version = "0.1.0"
 description = "Advent of Code is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. People use them as interview prep, company training, university coursework, practice problems, a speed contest, or to challenge each other."
-authors = [{ name = "mallory.brickerd", email = "mallorybrickerd@gmail.com" }]
+authors = [{ name = "mbrickerd", email = "mallorybrickerd@gmail.com" }]
 requires-python = "<4.0,>=3.11"
 readme = "README.md"
 dependencies = [
