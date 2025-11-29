@@ -189,7 +189,7 @@ To download puzzle inputs and submit answers, you need to configure your Advent 
    direnv allow .
    ```
 
-The session cookie will now automatically load when you cd into the project directory. Make sure `.envrc` is in your `.gitignore` to keep your credentials private.
+The session cookie will now automatically load when you `cd` into the project directory. Make sure `.envrc` is in your `.gitignore` to keep your credentials private.
 
 ## Usage
 
