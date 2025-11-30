@@ -150,7 +150,7 @@ All dependencies and tools are defined in `pyproject.toml` for deterministic env
 3. Set up pre-commit hooks:
 
    ```bash
-   pre-commit install
+   uv run pre-commit install
    ```
 
    Hooks will auto-run `ruff` and `mypy` checks before every commit.
@@ -222,13 +222,20 @@ The session cookie will now automatically load when you `cd` into the project di
 - Submit your answer:
 
    ```bash
-   uv run python main.py --year YEAR --day DAY --part PART --skip-test --submit
+   uv run python main.py --year <YEAR> --day <DAY> --part <PART> --skip-test --submit
    ```
 
 - Run all tests:
 
    ```bash
+   # Run all tests in the entire repository
    uv run pytest
+
+   # Run all tests for a specific year
+   uv run pytest _202X/
+
+   # Run tests for a specific day
+   uv run pytest _202X/tests/test_DD.py
    ```
 
 All core workflows utilize the CLI, and the testing framework is fully integrated.
