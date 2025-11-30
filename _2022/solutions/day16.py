@@ -145,7 +145,7 @@ class Solution(SolutionBase):
                     graph, idx1, edge_cost_fn=lambda _: 1, goal=idx2
                 )[idx2]
 
-                distances[(v1, v2)] = distances[(v2, v1)] = dist
+                distances[(v1, v2)] = distances[(v2, v1)] = int(dist)
 
         return tuple(flow_rates.items()), tuple(distances.items())
 
