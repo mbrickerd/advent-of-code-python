@@ -208,8 +208,13 @@ The session cookie will now automatically load when you `cd` into the project di
 - Validate a part using test input:
 
    ```bash
+   # Add test data input
    uv run python main.py --year <YEAR> --day <DAY> --part <PART> --add-test-input
+
+   # Add test suite boiler plate functions
    uv run python main.py --year <YEAR> --day <DAY> --part <PART> --add-test-file
+
+   # Test solution for a specific day part
    uv run python main.py --year <YEAR> --day <DAY> --part <PART>
    ```
 
