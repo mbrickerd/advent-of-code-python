@@ -55,7 +55,8 @@ All dependencies and tools are defined in `pyproject.toml` for deterministic env
 ├── .pre-commit-config.yaml    # Pre-commit hooks configuration
 ├── main.py                    # Main script to manage tasks and run solutions
 ├── pyproject.toml             # Project dependencies and configuration
-└── README.md
+├── README.md
+└── uv.lock
 ```
 
 - `aoc/`: Auth, input reading, submission, test/utility modules.
