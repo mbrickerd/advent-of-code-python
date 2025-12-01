@@ -103,8 +103,6 @@ build-backend = "pdm.backend"
 pythonpath = ["."]
 addopts = "-v"
 testpaths = ["tests"]
-asyncio_mode = "auto"
-markers = ["asyncio: mark test as async"]
 
 [tool.mypy]
 python_version = "3.11"
