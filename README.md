@@ -28,12 +28,6 @@ All dependencies and tools are defined in `pyproject.toml` for deterministic env
 │   │   ├── day01.py          # Solution for Day 1, 2025
 │   │   ├── day02.py          # Solution for Day 2, 2025
 │   │   └── ...
-│   ├── data/
-│   │   ├── day01
-│   │   │   └── puzzle_input.txt
-│   │   ├── day02
-│   │   │   └── puzzle_input.txt
-│   │   └── ...
 │   └── tests/
 │       ├── data/
 │       ├── __init__.py
