@@ -13,7 +13,6 @@ __pycache__/
 .cursor/
 
 .DS_Store
-uv.lock
 
 **/data/**/puzzle_input.txt
 .envrc
