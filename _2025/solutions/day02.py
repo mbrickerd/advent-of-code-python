@@ -67,8 +67,8 @@ class Solution(SolutionBase):
         -------
             int: Solution for part 1 of the puzzle
         """
-        check_for_two_repeats = partial(self.has_repeated_sequence, num_repeats=2)
-        return self.solve_part(data, check_for_two_repeats)
+        check_func = partial(self.has_repeated_sequence, num_repeats=2)
+        return self.solve_part(data, check_func)
 
     def part2(self, data: list[str]) -> int:
         """Solve the second part of the daily puzzle.
