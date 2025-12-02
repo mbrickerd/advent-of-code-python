@@ -8,7 +8,9 @@ The template provides a structure for defining tests for a specific day's
 solution, ensuring that the implementation meets the expected outputs for
 given test inputs.
 """
+
 from aoc.models.tester import TestSolutionUtility
+
 
 def test_day02_part1() -> None:
     """Test the solution for Part 1 of the daily puzzle.
@@ -23,6 +25,7 @@ def test_day02_part1() -> None:
         part_num=1,
         expected=1227775554,
     )
+
 
 def test_day02_part2() -> None:
     """Test the solution for Part 2 of the daily puzzle.

@@ -8,8 +8,8 @@ The template follows the SolutionBase pattern used across the Advent of Code sol
 allowing for consistent handling of input parsing and solution execution.
 """
 
+from collections.abc import Callable
 from functools import partial
-from typing import Callable
 
 from aoc.models.base import SolutionBase
 
@@ -25,7 +25,7 @@ class Solution(SolutionBase):
     for parsing input and solving the puzzle requirements.
     """
 
-    def has_repeated_sequence(self, n: int, num_repeats: int = None) -> bool:
+    def has_repeated_sequence(self, n: int, num_repeats: int | None = None) -> bool:
         s = str(n)
         length = len(s)
 
