@@ -61,7 +61,7 @@ class Solution(SolutionBase):
         return False
 
     def solve_part(self, data: list[str], func: Callable[[int], bool]) -> int:
-        """Generic solver to find and sum invalid IDs based on a check function.
+        """Find and sum invalid IDs based on a check function.
 
         Parses the input string of ranges, iterates through each number, and applies
         the provided checking function to identify and sum invalid IDs.
