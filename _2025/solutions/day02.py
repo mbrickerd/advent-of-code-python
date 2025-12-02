@@ -39,17 +39,15 @@ class Solution(SolutionBase):
             size = length // num_repeats
             return s == s[:size] * num_repeats
 
-        else:  # Check for any number of repetitions > 1
-            for k in range(2, length + 1):
-                if length % k == 0:
-                    size = length // k
-                    if s == s[:size] * k:
-                        return True
+        for k in range(2, length + 1):
+            if length % k == 0:
+                size = length // k
+                if s == s[:size] * k:
+                    return True
 
-            return False
+        return False
 
     def solve_part(self, data: list[str], func: Callable) -> int:
-        """Calculates the sum of numbers in ranges that satisfy the check_func."""
         invalid = 0
         for line in data[0].split(","):
             start, end = map(int, line.split("-"))
