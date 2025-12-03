@@ -1,4 +1,4 @@
-# Advent of Code
+# Advent of Code - Python
 
 A modular Python framework for efficiently tackling Advent of Code challenges, designed for clarity, quality, and easy setup. The repository supports day-by-day workflows for solving, testing, and submitting solutions, with strong emphasis on reproducible results and consistent code standards.
 
