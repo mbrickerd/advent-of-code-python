@@ -6,7 +6,9 @@ numeric values from digit sequences while preserving order. The tests verify:
 1. Part 1: Sum of maximum 2-digit values from all power bank readings
 2. Part 2: Sum of maximum 12-digit values from all power bank readings
 """
+
 from aoc.models.tester import TestSolutionUtility
+
 
 def test_day03_part1() -> None:
     """Test extracting and summing maximum 2-digit joltage values.
@@ -21,6 +23,7 @@ def test_day03_part1() -> None:
         part_num=1,
         expected=357,
     )
+
 
 def test_day03_part2() -> None:
     """Test extracting and summing maximum 12-digit joltage values.
