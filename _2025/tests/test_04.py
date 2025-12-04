@@ -1,0 +1,39 @@
+"""Test suite for Advent of Code daily challenge solution.
+
+This module contains the test cases for the solution to the Advent of Code
+daily puzzle. It uses the TestSolutionUtility to run tests for both parts
+of the challenge.
+
+The template provides a structure for defining tests for a specific day's
+solution, ensuring that the implementation meets the expected outputs for
+given test inputs.
+"""
+from aoc.models.tester import TestSolutionUtility
+
+def test_day04_part1() -> None:
+    """Test the solution for Part 1 of the daily puzzle.
+
+    This test runs the solution for Part 1 of the puzzle against the
+    provided test input and compares the result with the expected output.
+    """
+    TestSolutionUtility.run_test(
+        year=2025,
+        day=4,
+        is_raw=False,
+        part_num=1,
+        expected=13,
+    )
+
+def test_day04_part2() -> None:
+    """Test the solution for Part 2 of the daily puzzle.
+
+    This test runs the solution for Part 2 of the puzzle against the
+    provided test input and compares the result with the expected output.
+    """
+    TestSolutionUtility.run_test(
+        year=2025,
+        day=4,
+        is_raw=False,
+        part_num=2,
+        expected=43,
+    )
