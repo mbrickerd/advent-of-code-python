@@ -40,7 +40,7 @@ class Solution(SolutionBase):
         (1, 1),  # down-right
     ]
 
-    def find_accessible_roles(
+    def find_accessible_rolls(
         self, grid: list[list[str]], rows: int, cols: int
     ) -> list[tuple[int, int]]:
         """Find all accessible paper rolls in the current grid.
@@ -89,7 +89,7 @@ class Solution(SolutionBase):
         """
         grid = [list(row) for row in data]
         rows, cols = len(grid), len(grid[0])
-        return len(self.find_accessible_roles(grid, rows, cols))
+        return len(self.find_accessible_rolls(grid, rows, cols))
 
     def part2(self, data: list[str]) -> int:
         """Count the total number of rolls that can be removed.
@@ -108,7 +108,7 @@ class Solution(SolutionBase):
         """
         grid = [list(row) for row in data]
         rows, cols = len(grid), len(grid[0])
-        positions = self.find_accessible_roles(grid, rows, cols)
+        positions = self.find_accessible_rolls(grid, rows, cols)
 
         count = 0
         while (c := len(positions)) > 0:
@@ -116,6 +116,6 @@ class Solution(SolutionBase):
             for y, x in positions:
                 grid[y][x] = "."
 
-            positions = self.find_accessible_roles(grid, rows, cols)
+            positions = self.find_accessible_rolls(grid, rows, cols)
 
         return count
