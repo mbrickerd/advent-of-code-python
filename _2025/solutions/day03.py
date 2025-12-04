@@ -40,7 +40,7 @@ class Solution(SolutionBase):
             int: Maximum k-digit number that can be formed from the input digits
                 while preserving their original order
         """
-        digits = [int(c) for c in bank]
+        digits = [int(char) for char in bank]
         n = len(digits)
         remove = n - k
         stack: list[int] = []
