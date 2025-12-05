@@ -6,6 +6,7 @@ ingredient ID ranges and available ingredient IDs. The tests verify:
 1. Part 1: Counting available IDs that are fresh
 2. Part 2: Counting total distinct fresh IDs after merging ranges
 """
+
 from aoc.models.tester import TestSolutionUtility
 
 

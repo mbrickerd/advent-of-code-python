@@ -11,7 +11,6 @@ implements logic for checking freshness and merging overlapping ranges.
 """
 
 import re
-
 from typing import ClassVar
 
 from aoc.models.base import SolutionBase
