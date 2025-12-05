@@ -1,19 +1,17 @@
-"""Test suite for Advent of Code daily challenge solution.
+"""Test suite for Day 4: Printing Department
 
-This module contains the test cases for the solution to the Advent of Code
-daily puzzle. It uses the TestSolutionUtility to run tests for both parts
-of the challenge.
+This module contains tests for the Day 4 solution, which analyzes paper roll
+grids to determine accessibility and removal order. The tests verify:
 
-The template provides a structure for defining tests for a specific day's
-solution, ensuring that the implementation meets the expected outputs for
-given test inputs.
+1. Part 1: Counting initially accessible paper rolls (fewer than 4 neighbors)
+2. Part 2: Counting total rolls removable through iterative process
 """
 
 from aoc.models.tester import TestSolutionUtility
 
 
 def test_day04_part1() -> None:
-    """Test the solution for Part 1 of the daily puzzle.
+    """Test counting initially accessible paper rolls.
 
     This test runs the solution for Part 1 of the puzzle against the
     provided test input and compares the result with the expected output.
@@ -28,7 +26,7 @@ def test_day04_part1() -> None:
 
 
 def test_day04_part2() -> None:
-    """Test the solution for Part 2 of the daily puzzle.
+    """Test counting total removable paper rolls iteratively.
 
     This test runs the solution for Part 2 of the puzzle against the
     provided test input and compares the result with the expected output.
