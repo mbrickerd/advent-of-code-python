@@ -232,10 +232,10 @@ The session cookie will now automatically load when you `cd` into the project di
    uv run pytest
 
    # Run all tests for a specific year
-   uv run pytest _202X/
+   uv run pytest _202Y/
 
    # Run tests for a specific day
-   uv run pytest _202X/tests/test_DD.py
+   uv run pytest _202Y/tests/test_DD.py
    ```
 
 All core workflows utilize the CLI, and the testing framework is fully integrated.
@@ -250,7 +250,7 @@ GitHub Actions continuously check code quality on push/PR:
 
 - **Type checking**: `uv run mypy ...`
 
-- **Tests**: `uv run pytest tests`
+- **Tests**: `uv run pytest _202Y`
 
 These match the checks enforced by local pre-commit.
 
