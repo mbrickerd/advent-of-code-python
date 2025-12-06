@@ -118,15 +118,15 @@ class Solution(SolutionBase):
         ranges, _ = self.parse_data(data)
         ranges = sorted(ranges, key=lambda interval: interval[0])
 
-        total = 0
+        count = 0
         current_start, current_end = ranges[0]
 
         for start, end in ranges[1:]:
             if start <= current_end + 1:
                 current_end = max(current_end, end)
             else:
-                total += current_end - current_start + 1
+                count += current_end - current_start + 1
                 current_start, current_end = start, end
 
-        total += current_end - current_start + 1
-        return total
+        count += current_end - current_start + 1
+        return count
