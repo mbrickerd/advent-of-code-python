@@ -6,6 +6,7 @@ math worksheets laid out in a compacted, column-wise format. The tests verify:
 1. Part 1: Evaluating each vertically aligned problem using the given operator
 2. Part 2: Evaluating rotated worksheet problems with column-based parsing
 """
+
 from aoc.models.tester import TestSolutionUtility
 
 

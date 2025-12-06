@@ -40,12 +40,12 @@ class Solution(SolutionBase):
         -------
             int: Sum of all evaluated math problems from the worksheet
         """
-        cols = list(zip(*[row.strip().split() for row in data]))
+        cols = list(zip(*[row.strip().split() for row in data], strict=False))
         score = 0
 
         for group in cols:
             nums, operator = group[:-1], group[-1]
-            score += eval(operator.join(nums))
+            score += eval(operator.join(nums))  # noqa: S307
 
         return score
 
@@ -73,7 +73,7 @@ class Solution(SolutionBase):
         problems = []
         current_problem = []
 
-        for col in zip(*[line[::-1] for line in lines]):
+        for col in zip(*[line[::-1] for line in lines], strict=False):
             if all(char == " " for char in col):
                 continue
 
@@ -88,7 +88,9 @@ class Solution(SolutionBase):
                 problems.append(current_problem)
                 current_problem = []
 
-        return sum([
-            (math.prod(problem) if operator == "*" else sum(problem))
-            for operator, problem in zip(operators, problems)
-        ])
+        return sum(
+            [
+                (math.prod(problem) if operator == "*" else sum(problem))
+                for operator, problem in zip(operators, problems, strict=False)
+            ]
+        )
