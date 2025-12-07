@@ -6,6 +6,7 @@ propagation and splitting in a laser lab grid. The tests verify:
 1. Part 1: Counting how many splitters are activated by the beam front
 2. Part 2: Counting how many distinct beam paths reach the bottom row
 """
+
 from aoc.models.tester import TestSolutionUtility
 
 
