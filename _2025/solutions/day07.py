@@ -41,12 +41,12 @@ class Solution(SolutionBase):
         ------
             ValueError: If no 'S' cell is found in the grid
         """
-        for y, row in enumerate(grid):
-            for x, cell in enumerate(row):
+        for x, row in enumerate(grid):
+            for y, cell in enumerate(row):
                 if cell == "S":
                     return (x, y)
 
-        err_msg = "No 'S' start cell found in grid!"
+        err_msg = "No start cell 'S' in the grid!"
         raise ValueError(err_msg)
 
     def part1(self, data: list[str]) -> int:
@@ -65,7 +65,7 @@ class Solution(SolutionBase):
             int: Number of times splitters are activated across all rows
         """
         grid = [list(row) for row in data]
-        start_col, start_row = self.find_start(grid)
+        start_row, start_col = self.find_start(grid)
 
         beams: set[int] = {start_col}
         count = 0
