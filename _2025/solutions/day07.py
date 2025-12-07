@@ -46,7 +46,8 @@ class Solution(SolutionBase):
                 if cell == "S":
                     return (x, y)
 
-        raise ValueError("No 'S' start cell found in grid!")
+        err_msg = "No 'S' start cell found in grid!"
+        raise ValueError(err_msg)
 
     def part1(self, data: list[str]) -> int:
         """Count how many splitters are activated along a single beam front.
