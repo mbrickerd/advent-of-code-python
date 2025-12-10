@@ -106,7 +106,8 @@ class Solution(SolutionBase):
         """
         grid = [list(row) for row in data]
         rows, cols = len(grid), len(grid[0])
-        start_col, start_row = self.find_start(grid)
+
+        start_row, start_col = self.find_start(grid)
 
         dp = [[0] * cols for _ in range(rows)]
 
@@ -125,6 +126,7 @@ class Solution(SolutionBase):
                 elif cell == "^":
                     if c - 1 >= 0:
                         dp[r + 1][c - 1] += dp[r][c]
+
                     if c + 1 < cols:
                         dp[r + 1][c + 1] += dp[r][c]
 
