@@ -13,6 +13,7 @@ __pycache__/
 .cursor/
 
 .DS_Store
-
-**/data/**/puzzle_input.txt
 .envrc
+
+# AoC rules explicitly state that you should not publicly share or commit your actual puzzle input
+**/data/**/puzzle_input.txt

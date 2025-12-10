@@ -11,14 +11,13 @@ Part 2 uses the same button sets but treats joltages as a linear system
 to satisfy numeric requirements for each machine.
 """
 
+from collections import deque
 import math
 import re
+from typing import ClassVar
 
-from collections import deque
-from itertools import combinations
 from numpy import transpose
 from scipy.optimize import linprog
-from typing import ClassVar
 
 from aoc.models.base import SolutionBase
 
@@ -71,14 +70,11 @@ class Solution(SolutionBase):
                 curly = list(map(int, gr3.split(",")))
 
         if square is None or curly is None:
-            raise ValueError(f"Invalid line (missing [] or {{}}): {line!r}")
+            err_msg = f"Invalid line (missing [] or {{}}): {line!r}"
+            raise ValueError(err_msg)
 
         if curly:
-            useful_parentheses: list[tuple[int, ...]] = []
-            for btn in parentheses:
-                if any(curly[idx] > 0 for idx in btn):
-                    useful_parentheses.append(btn)
-
+            useful_parentheses = [btn for btn in parentheses if any(curly[idx] > 0 for idx in btn)]
             parentheses = useful_parentheses
 
         return square, parentheses, curly
@@ -87,9 +83,7 @@ class Solution(SolutionBase):
         """Convert a light pattern ('.'/'#') into a boolean tuple state."""
         return tuple(ch == "#" for ch in lights)
 
-    def apply_button(
-            self, state: tuple[int, ...], button: tuple[int, ...]
-    ) -> tuple[int, ...]:
+    def apply_button(self, state: tuple[int, ...], button: tuple[int, ...]) -> tuple[int, ...]:
         """Toggle a set of indicator lights according to a button wiring.
 
         Args:
@@ -106,9 +100,7 @@ class Solution(SolutionBase):
 
         return tuple(arr)
 
-    def min_presses_for_lights(
-            self, lights: list[str], buttons: list[tuple[int, ...]]
-    ) -> int:
+    def min_presses_for_lights(self, lights: list[str], buttons: list[tuple[int, ...]]) -> int:
         """Compute minimum presses to reach target light pattern using BFS.
 
         Treats each distinct light state as a node in a graph and each button
@@ -149,7 +141,8 @@ class Solution(SolutionBase):
                 if nxt not in visited:
                     q.append((nxt, steps + 1))
 
-        raise ValueError(f"Unreachable lights pattern {lights} with given buttons")
+        err_msg = f"Unreachable lights pattern {lights} with given buttons"
+        raise ValueError(err_msg)
 
     def button_to_vector(self, button: tuple[int, ...], num_slots: int) -> list[int]:
         """Convert a button wiring into a vector for the joltage equation system.
@@ -168,7 +161,9 @@ class Solution(SolutionBase):
         return vec
 
     def min_presses_for_machine(
-            self, buttons: list[tuple[int, ...]], target: list[int],
+        self,
+        buttons: list[tuple[int, ...]],
+        target: list[int],
     ) -> int:
         """Compute minimum button presses to satisfy machine joltage constraints.
 
@@ -191,20 +186,21 @@ class Solution(SolutionBase):
         if not target:
             return 0
 
-        N = len(buttons)
+        N = len(buttons)  # noqa: N806
         num_jolt = len(target)
 
         if N == 0:
             if any(t != 0 for t in target):
-                raise ValueError(f"Unreachable target {target} with given buttons")
+                err_msg = f"Unreachable target {target} with given buttons"
+                raise ValueError(err_msg)
             return 0
 
         # Objective: minimize total button presses
         c = [1] * N
 
         # Build equality constraints: sum(button_vectors * presses) = target
-        A_eq = [self.button_to_vector(btn, num_jolt) for btn in buttons]
-        A_eq = transpose(A_eq)
+        A_eq = [self.button_to_vector(btn, num_jolt) for btn in buttons]  # noqa: N806
+        A_eq = transpose(A_eq)  # noqa: N806
         b_eq = target
         integrality = [1] * N
 
@@ -216,7 +212,8 @@ class Solution(SolutionBase):
         )
 
         if not res.success:
-            raise ValueError(f"Unreachable target {target} with given buttons")
+            err_msg = f"Unreachable target {target} with given buttons"
+            raise ValueError(err_msg)
 
         return int(math.ceil(sum(res.x)))
 

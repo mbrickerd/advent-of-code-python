@@ -7,6 +7,7 @@ joltage requirements. The tests verify:
 1. Part 1: Fewest total button presses to match all indicator light patterns
 2. Part 2: Fewest total button presses to satisfy all joltage requirements
 """
+
 from aoc.models.tester import TestSolutionUtility
 
 
