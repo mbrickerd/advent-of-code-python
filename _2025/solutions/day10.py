@@ -14,9 +14,10 @@ to satisfy numeric requirements for each machine.
 from collections import deque
 import math
 import re
-from typing import ClassVar
+from typing import ClassVar, cast
 
-from numpy import transpose
+import numpy as np
+import numpy.typing as npt
 from scipy.optimize import linprog
 
 from aoc.models.base import SolutionBase
@@ -193,16 +194,17 @@ class Solution(SolutionBase):
             if any(t != 0 for t in target):
                 err_msg = f"Unreachable target {target} with given buttons"
                 raise ValueError(err_msg)
+
             return 0
 
         # Objective: minimize total button presses
         c = [1] * N
 
         # Build equality constraints: sum(button_vectors * presses) = target
-        A_eq = [self.button_to_vector(btn, num_jolt) for btn in buttons]  # noqa: N806
-        A_eq = transpose(A_eq)  # noqa: N806
-        b_eq = target
-        integrality = [1] * N
+        A_eq_list = [self.button_to_vector(btn, num_jolt) for btn in buttons]  # noqa: N806
+        A_eq: npt.NDArray[np.int_] = np.transpose(A_eq_list)  # noqa: N806
+        b_eq = np.array(target, dtype=int)
+        integrality = np.ones(N, dtype=int)
 
         res = linprog(
             c,
@@ -215,7 +217,9 @@ class Solution(SolutionBase):
             err_msg = f"Unreachable target {target} with given buttons"
             raise ValueError(err_msg)
 
-        return int(math.ceil(sum(res.x)))
+        x = cast(npt.NDArray[np.float64], res.x)
+        total_presses = float(x.sum())
+        return int(math.ceil(total_presses))
 
     def part1(self, data: list[str]) -> int:
         """Sum minimum button presses to match indicator lights for all machines.
