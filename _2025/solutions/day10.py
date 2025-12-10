@@ -16,7 +16,8 @@ import math
 import re
 from typing import ClassVar
 
-from numpy import transpose
+import numpy as np
+import numpy.typing as npt
 from scipy.optimize import linprog
 
 from aoc.models.base import SolutionBase
@@ -199,8 +200,8 @@ class Solution(SolutionBase):
         c = [1] * N
 
         # Build equality constraints: sum(button_vectors * presses) = target
-        A_eq = [self.button_to_vector(btn, num_jolt) for btn in buttons]  # noqa: N806
-        A_eq = transpose(A_eq)  # noqa: N806
+        A_ls = [self.button_to_vector(btn, num_jolt) for btn in buttons]  # noqa: N806
+        A_eq: npt.NDArray[np.int_] = np.transpose(A_ls)  # noqa: N806
         b_eq = target
         integrality = [1] * N
 
