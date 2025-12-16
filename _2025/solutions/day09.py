@@ -12,8 +12,29 @@ to efficiently search the space of candidate rectangles.
 """
 
 from collections import deque
+from dataclasses import dataclass
+from typing import ClassVar
 
 from aoc.models.base import SolutionBase
+
+
+@dataclass(frozen=True, slots=True)
+class CompressedTiles:
+    xs: list[int]
+    ys: list[int]
+    coords: list[tuple[int, int]]  # (x_idx, y_idx)
+
+    @property
+    def width(self) -> int:
+        return len(self.xs)
+
+    @property
+    def height(self) -> int:
+        return len(self.ys)
+
+    @property
+    def N(self) -> int:  # noqa: N802
+        return len(self.coords)
 
 
 class Solution(SolutionBase):
@@ -30,6 +51,124 @@ class Solution(SolutionBase):
     rectangle search is combined with a grid mask to validate candidate areas.
     """
 
+    DIRECTIONS: ClassVar[tuple[tuple[int, int], ...]] = ((1, 0), (-1, 0), (0, 1), (0, -1))
+
+    def parse_data(self, data: list[str]) -> CompressedTiles:
+        tiles = [tuple(map(int, line.split(","))) for line in data if line.strip()]
+
+        xs = sorted({x for x, _ in tiles})
+        ys = sorted({y for _, y in tiles})
+
+        x_to_idx = {x: i for i, x in enumerate(xs)}
+        y_to_idx = {y: i for i, y in enumerate(ys)}
+
+        coords = [(x_to_idx[x], y_to_idx[y]) for x, y in tiles]
+        return CompressedTiles(xs=xs, ys=ys, coords=coords)
+
+    def calculate_area(self, x1: int, y1: int, x2: int, y2: int) -> int:
+        return (abs(x2 - x1) + 1) * (abs(y2 - y1) + 1)
+
+    def construct_grid(self, height: int, width: int, value: int = 0) -> list[list[int]]:
+        return [[value] * width for _ in range(height)]
+
+    def construct_bool_grid(
+        self, height: int, width: int, *, value: bool = False
+    ) -> list[list[bool]]:
+        return [[value] * width for _ in range(height)]
+
+    def mark_red_tiles(self, grid: list[list[int]], coords: list[tuple[int, int]]) -> None:
+        for x_idx, y_idx in coords:
+            grid[y_idx][x_idx] = 1
+
+    def mark_green_boundary(self, grid: list[list[int]], coords: list[tuple[int, int]]) -> None:
+        N = len(coords)  # noqa: N806
+        for i in range(N):
+            x1, y1 = coords[i]
+            x2, y2 = coords[(i + 1) % N]
+
+            if x1 == x2:
+                y_min, y_max = sorted((y1, y2))
+                for y in range(y_min, y_max + 1):
+                    if grid[y][x1] == 0:
+                        grid[y][x1] = 2
+
+            elif y1 == y2:
+                x_min, x_max = sorted((x1, x2))
+                for x in range(x_min, x_max + 1):
+                    if grid[y1][x] == 0:
+                        grid[y1][x] = 2
+
+            else:
+                err_msg = "Non axis-aligned segment in input"
+                raise ValueError(err_msg)
+
+    def seed_if_outside_empty(
+        self,
+        grid: list[list[int]],
+        outside: list[list[bool]],
+        queue: deque[tuple[int, int]],
+        x: int,
+        y: int,
+    ) -> None:
+        if grid[y][x] == 0 and not outside[y][x]:
+            outside[y][x] = True
+            queue.append((x, y))
+
+    def flood_fill_outside_zeros(self, grid: list[list[int]]) -> list[list[bool]]:
+        height = len(grid)
+        width = len(grid[0])
+
+        outside = self.construct_bool_grid(height, width, value=False)
+        queue: deque[tuple[int, int]] = deque()
+
+        for x in range(width):
+            self.seed_if_outside_empty(grid, outside, queue, x, 0)
+            self.seed_if_outside_empty(grid, outside, queue, x, height - 1)
+
+        for y in range(height):
+            self.seed_if_outside_empty(grid, outside, queue, 0, y)
+            self.seed_if_outside_empty(grid, outside, queue, width - 1, y)
+
+        while queue:
+            x, y = queue.popleft()
+            for dx, dy in self.DIRECTIONS:
+                nx, ny = x + dx, y + dy
+                if (
+                    nx in range(width)
+                    and ny in range(height)
+                    and not outside[ny][nx]
+                    and grid[ny][nx] == 0
+                ):
+                    outside[ny][nx] = True
+                    queue.append((nx, ny))
+
+        return outside
+
+    def fill_interior_as_green(self, grid: list[list[int]], outside: list[list[bool]]) -> None:
+        height = len(grid)
+        width = len(grid[0])
+
+        for y in range(height):
+            for x in range(width):
+                if grid[y][x] == 0 and not outside[y][x]:
+                    grid[y][x] = 2
+
+    def rectangle_all_non_zero(
+        self,
+        grid: list[list[int]],
+        x_left: int,
+        x_right: int,
+        y_top: int,
+        y_bottom: int,
+    ) -> bool:
+        for y in range(y_top, y_bottom + 1):
+            row = grid[y]
+            for x in range(x_left, x_right + 1):
+                if row[x] == 0:
+                    return False
+
+        return True
+
     def part1(self, data: list[str]) -> int:
         r"""Find largest rectangle area using two red tiles as opposite corners.
 
@@ -45,41 +184,24 @@ class Solution(SolutionBase):
         -------
             int: Largest rectangle area using two red tiles as opposite corners
         """
-        tiles = [tuple(map(int, line.split(","))) for line in data]
+        tiles = self.parse_data(data)
 
-        if len(tiles) < 2:
+        if tiles.N < 2:
             return 0
 
-        # Coordinate compression (space distortion)
-        xs = sorted({x for x, _ in tiles})
-        ys = sorted({y for _, y in tiles})
-
-        x_to_idx = {x: i for i, x in enumerate(xs)}
-        y_to_idx = {y: i for i, y in enumerate(ys)}
-
-        compressed_tiles: list[tuple[int, int]] = [(x_to_idx[x], y_to_idx[y]) for x, y in tiles]
-
         max_area = 0
-        n = len(compressed_tiles)
+        N = tiles.N  # noqa: N806
 
-        for i in range(n):
-            x1_idx, y1_idx = compressed_tiles[i]
-            for j in range(i + 1, n):
-                x2_idx, y2_idx = compressed_tiles[j]
-
-                # Opposite corners must differ in both x and y to form area
+        for i in range(N):
+            x1_idx, y1_idx = tiles.coords[i]
+            for j in range(i + 1, N):
+                x2_idx, y2_idx = tiles.coords[j]
                 if x1_idx == x2_idx or y1_idx == y2_idx:
                     continue
 
-                # Get original coordinates
-                x1 = xs[x1_idx]
-                y1 = ys[y1_idx]
-                x2 = xs[x2_idx]
-                y2 = ys[y2_idx]
-
-                width = abs(x2 - x1) + 1
-                height = abs(y2 - y1) + 1
-                area = width * height
+                x1, y1 = tiles.xs[x1_idx], tiles.ys[y1_idx]
+                x2, y2 = tiles.xs[x2_idx], tiles.ys[y2_idx]
+                area = self.calculate_area(x1, y1, x2, y2)
 
                 if area > max_area:
                     max_area = area
@@ -105,111 +227,38 @@ class Solution(SolutionBase):
             int: Largest rectangle area that uses red tiles as opposite corners
                 and includes only red or green tiles inside
         """
-        tiles = [tuple(map(int, line.split(","))) for line in data if line.strip()]
+        tiles = self.parse_data(data)
 
-        if len(tiles) < 2:
+        if tiles.N < 2:
             return 0
 
-        # Coordinate compression
-        xs = sorted({x for x, _ in tiles})
-        ys = sorted({y for _, y in tiles})
-        x_to_idx = {x: i for i, x in enumerate(xs)}
-        y_to_idx = {y: i for i, y in enumerate(ys)}
-        compressed = [(x_to_idx[x], y_to_idx[y]) for x, y in tiles]
+        grid = self.construct_grid(tiles.height, tiles.width, 0)
+        self.mark_red_tiles(grid, tiles.coords)
+        self.mark_green_boundary(grid, tiles.coords)
 
-        w, h = len(xs), len(ys)
-        # 0 = empty, 1 = red, 2 = green
-        grid = [[0] * w for _ in range(h)]
+        outside = self.flood_fill_outside_zeros(grid)
+        self.fill_interior_as_green(grid, outside)
 
-        # Mark red tiles
-        for cx, cy in compressed:
-            grid[cy][cx] = 1
-
-        # Draw green boundary segments between consecutive reds (wrap around)
-        n = len(compressed)
-        for i in range(n):
-            x1, y1 = compressed[i]
-            x2, y2 = compressed[(i + 1) % n]
-            if x1 == x2:
-                ys_min, ys_max = sorted((y1, y2))
-                for y in range(ys_min, ys_max + 1):
-                    if grid[y][x1] == 0:
-                        grid[y][x1] = 2
-            elif y1 == y2:
-                xs_min, xs_max = sorted((x1, x2))
-                for x in range(xs_min, xs_max + 1):
-                    if grid[y1][x] == 0:
-                        grid[y1][x] = 2
-            else:
-                err_msg = "Non axis-aligned segment in input"
-                raise ValueError(err_msg)
-
-        # Flood-fill outside empty cells
-        outside = [[False] * w for _ in range(h)]
-        q: deque[tuple[int, int]] = deque()
-
-        # Seed flood fill from outer boundary
-        for x in range(w):
-            if grid[0][x] == 0:
-                outside[0][x] = True
-                q.append((x, 0))
-            if grid[h - 1][x] == 0:
-                outside[h - 1][x] = True
-                q.append((x, h - 1))
-
-        for y in range(h):
-            if grid[y][0] == 0:
-                outside[y][0] = True
-                q.append((0, y))
-            if grid[y][w - 1] == 0:
-                outside[y][w - 1] = True
-                q.append((w - 1, y))
-
-        while q:
-            x, y = q.popleft()
-            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-                nx, ny = x + dx, y + dy
-                if 0 <= nx < w and 0 <= ny < h and not outside[ny][nx] and grid[ny][nx] == 0:
-                    outside[ny][nx] = True
-                    q.append((nx, ny))
-
-        # Interior empty cells become green
-        for y in range(h):
-            for x in range(w):
-                if grid[y][x] == 0 and not outside[y][x]:
-                    grid[y][x] = 2
-
-        # Search for largest valid rectangle (only red/green inside)
         max_area = 0
-        n = len(compressed)
+        N = tiles.N  # noqa: N806
 
-        for i in range(n):
-            x1i, y1i = compressed[i]
-            for j in range(i + 1, n):
-                x2i, y2i = compressed[j]
-                if x1i == x2i or y1i == y2i:
+        for i in range(N):
+            x1_idx, y1_idx = tiles.coords[i]
+            for j in range(i + 1, N):
+                x2_idx, y2_idx = tiles.coords[j]
+                if x1_idx == x2_idx or y1_idx == y2_idx:
                     continue
 
-                xl, xr = sorted((x1i, x2i))
-                yt, yb = sorted((y1i, y2i))
+                x_left, x_right = sorted((x1_idx, x2_idx))
+                y_top, y_bottom = sorted((y1_idx, y2_idx))
 
-                # Check rectangle only contains red/green
-                ok = True
-                for yy in range(yt, yb + 1):
-                    row = grid[yy]
-                    for xx in range(xl, xr + 1):
-                        if row[xx] == 0:
-                            ok = False
-                            break
-                    if not ok:
-                        break
-
-                if not ok:
+                if not self.rectangle_all_non_zero(grid, x_left, x_right, y_top, y_bottom):
                     continue
 
-                x1, y1 = xs[x1i], ys[y1i]
-                x2, y2 = xs[x2i], ys[y2i]
-                area = (abs(x2 - x1) + 1) * (abs(y2 - y1) + 1)
+                x1, y1 = tiles.xs[x1_idx], tiles.ys[y1_idx]
+                x2, y2 = tiles.xs[x2_idx], tiles.ys[y2_idx]
+                area = self.calculate_area(x1, y1, x2, y2)
+
                 if area > max_area:
                     max_area = area
 
