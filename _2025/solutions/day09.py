@@ -1,10 +1,10 @@
 r"""Day 9: Movie Theater
 
-This module provides the solution for Advent of Code 2025 - Day 9
+This module provides the solution for Advent of Code 2025 - Day 9.
 
 It finds the largest axis-aligned rectangle that can be formed in a tile grid
 using red tiles as opposite corners (Part 1), then extends the search to allow
-rectangles that include both red and \"green\" tiles (Part 2).
+rectangles that include both red and "green" tiles (Part 2).
 
 The module contains a Solution class that inherits from SolutionBase and
 implements coordinate compression, flood fill, and rectangle validation
@@ -20,20 +20,41 @@ from aoc.models.base import SolutionBase
 
 @dataclass(frozen=True, slots=True)
 class CompressedTiles:
+    """Coordinate-compressed representation of the input tile set.
+
+    The original problem coordinates may be large and sparse. This structure
+    compresses the coordinate space down to the unique x- and y-values that
+    occur in the input, allowing grid-based operations to run on a much smaller
+    grid.
+
+    Attributes
+    ----------
+    xs:
+        Sorted unique x-coordinates present in the input.
+    ys:
+        Sorted unique y-coordinates present in the input.
+    coords:
+        List of (x_idx, y_idx) pairs, where each index refers into `xs`/`ys`.
+        These represent the red tile positions in compressed space.
+    """
+
     xs: list[int]
     ys: list[int]
     coords: list[tuple[int, int]]  # (x_idx, y_idx)
 
     @property
     def width(self) -> int:
+        """Return the compressed grid width (number of unique x-values)."""
         return len(self.xs)
 
     @property
     def height(self) -> int:
+        """Return the compressed grid height (number of unique y-values)."""
         return len(self.ys)
 
     @property
     def N(self) -> int:  # noqa: N802
+        """Return the number of red tiles in the input."""
         return len(self.coords)
 
 
@@ -54,6 +75,20 @@ class Solution(SolutionBase):
     DIRECTIONS: ClassVar[tuple[tuple[int, int], ...]] = ((1, 0), (-1, 0), (0, 1), (0, -1))
 
     def parse_data(self, data: list[str]) -> CompressedTiles:
+        r"""Parse input lines and build a coordinate-compressed tile set.
+
+        Each input line contains an integer coordinate pair in the form \"X,Y\".
+        This method extracts all red tile positions, builds the sorted unique
+        x- and y-coordinate lists, and converts each coordinate into its
+        corresponding compressed index pair.
+
+        Args:
+            data: List of \"X,Y\" strings representing red tile positions.
+
+        Returns
+        -------
+            CompressedTiles: Compressed coordinate lists and red tile indices.
+        """
         tiles = [tuple(map(int, line.split(","))) for line in data if line.strip()]
 
         xs = sorted({x for x, _ in tiles})
@@ -66,21 +101,90 @@ class Solution(SolutionBase):
         return CompressedTiles(xs=xs, ys=ys, coords=coords)
 
     def calculate_area(self, x1: int, y1: int, x2: int, y2: int) -> int:
+        r"""Compute the inclusive area of an axis-aligned rectangle on the input grid.
+
+        The rectangle is defined by two opposite corners (x1, y1) and (x2, y2),
+        and includes both boundary lines (hence the +1 in each dimension).
+
+        Args:
+            x1: X-coordinate of the first corner.
+            y1: Y-coordinate of the first corner.
+            x2: X-coordinate of the opposite corner.
+            y2: Y-coordinate of the opposite corner.
+
+        Returns
+        -------
+            int: Inclusive rectangle area \( (|x2-x1|+1) * (|y2-y1|+1) \).
+        """
         return (abs(x2 - x1) + 1) * (abs(y2 - y1) + 1)
 
     def construct_grid(self, height: int, width: int, value: int = 0) -> list[list[int]]:
+        """Construct an integer grid initialized to a constant value.
+
+        This grid is used as a compact mask over the compressed coordinate
+        space. Cell values are interpreted as:
+        - 0: empty
+        - 1: red tile
+        - 2: green tile (boundary or filled interior)
+
+        Args:
+            height: Number of rows.
+            width: Number of columns.
+            value: Initial integer value for all cells.
+
+        Returns
+        -------
+            list[list[int]]: A height x width integer grid.
+        """
         return [[value] * width for _ in range(height)]
 
     def construct_bool_grid(
         self, height: int, width: int, *, value: bool = False
     ) -> list[list[bool]]:
+        """Construct a boolean grid initialized to a constant value.
+
+        This is used for marking reachability during flood fill (e.g. which
+        empty cells are reachable from the exterior boundary).
+
+        Args:
+            height: Number of rows.
+            width: Number of columns.
+            value: Initial boolean value for all cells.
+
+        Returns
+        -------
+            list[list[bool]]: A height x width boolean grid.
+        """
         return [[value] * width for _ in range(height)]
 
     def mark_red_tiles(self, grid: list[list[int]], coords: list[tuple[int, int]]) -> None:
+        """Mark red tiles on the compressed grid.
+
+        Sets grid cells corresponding to red tile coordinates to 1.
+
+        Args:
+            grid: Integer grid to modify in-place.
+            coords: List of (x_idx, y_idx) red tile positions in compressed space.
+        """
         for x_idx, y_idx in coords:
             grid[y_idx][x_idx] = 1
 
     def mark_green_boundary(self, grid: list[list[int]], coords: list[tuple[int, int]]) -> None:
+        """Trace the loop edges between red tiles and mark boundary tiles as green.
+
+        The input red tiles are treated as vertices of a closed polygonal loop
+        in the given order. Consecutive tiles (including last->first) must be
+        axis-aligned. Any empty grid cells along these connecting segments are
+        marked as green (2), leaving red cells intact.
+
+        Args:
+            grid: Integer grid to modify in-place.
+            coords: List of (x_idx, y_idx) red tile positions in loop order.
+
+        Raises
+        ------
+            ValueError: If a segment between consecutive points is not axis-aligned.
+        """
         N = len(coords)  # noqa: N806
         for i in range(N):
             x1, y1 = coords[i]
@@ -110,11 +214,38 @@ class Solution(SolutionBase):
         x: int,
         y: int,
     ) -> None:
+        """Seed the flood fill queue with an exterior empty cell if eligible.
+
+        This helper is used to initialize the outside flood fill from boundary
+        positions. A cell is added if it is empty (0) and has not already been
+        marked as outside.
+
+        Args:
+            grid: Integer grid containing tile markings.
+            outside: Boolean grid marking cells known to be reachable from outside.
+            queue: Flood fill queue of (x, y) positions to explore.
+            x: Column index to check.
+            y: Row index to check.
+        """
         if grid[y][x] == 0 and not outside[y][x]:
             outside[y][x] = True
             queue.append((x, y))
 
     def flood_fill_outside_zeros(self, grid: list[list[int]]) -> list[list[bool]]:
+        """Mark all empty cells reachable from the grid boundary.
+
+        This performs a BFS flood fill over cells with value 0, starting from
+        all boundary positions. The result is a boolean mask indicating which
+        empty cells are connected to the exterior and therefore not part of the
+        enclosed interior.
+
+        Args:
+            grid: Integer grid where 0 denotes empty and non-zero denotes blocked.
+
+        Returns
+        -------
+            list[list[bool]]: Boolean grid where True indicates an outside-reachable empty cell.
+        """
         height = len(grid)
         width = len(grid[0])
 
@@ -145,6 +276,16 @@ class Solution(SolutionBase):
         return outside
 
     def fill_interior_as_green(self, grid: list[list[int]], outside: list[list[bool]]) -> None:
+        """Convert enclosed empty cells into green tiles.
+
+        After flood-filling the outside, any remaining empty (0) cells that are
+        not marked outside are interior to the loop. These are re-labeled as
+        green (2) in-place.
+
+        Args:
+            grid: Integer grid to modify in-place.
+            outside: Boolean grid marking which empty cells are reachable from outside.
+        """
         height = len(grid)
         width = len(grid[0])
 
@@ -161,6 +302,23 @@ class Solution(SolutionBase):
         y_top: int,
         y_bottom: int,
     ) -> bool:
+        """Check whether a rectangle contains no empty cells.
+
+        The rectangle bounds are inclusive and are expressed in compressed grid
+        indices. A rectangle is valid if every cell within the bounds is
+        non-zero (i.e. red or green).
+
+        Args:
+            grid: Integer grid containing 0 for empty and non-zero for occupied.
+            x_left: Left boundary (inclusive) in x index space.
+            x_right: Right boundary (inclusive) in x index space.
+            y_top: Top boundary (inclusive) in y index space.
+            y_bottom: Bottom boundary (inclusive) in y index space.
+
+        Returns
+        -------
+            bool: True if all cells in the rectangle are non-zero, otherwise False.
+        """
         for y in range(y_top, y_bottom + 1):
             row = grid[y]
             for x in range(x_left, x_right + 1):
